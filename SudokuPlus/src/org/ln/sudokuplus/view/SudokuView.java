@@ -10,6 +10,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -20,7 +22,6 @@ import javax.swing.Timer;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
-import javax.swing.text.View;
 
 import org.ln.sudokuplus.controller.SudokuController;
 import org.ln.sudokuplus.model.Level;
@@ -34,6 +35,8 @@ import org.ln.sudokuplus.model.SudokuConstants;
 
 @SuppressWarnings("serial")
 public class SudokuView extends JFrame {
+
+        private static final Logger LOGGER = Logger.getLogger(SudokuView.class.getName());
 
 	// private variables
 	private GameBoard board = new GameBoard();
@@ -134,10 +137,11 @@ public class SudokuView extends JFrame {
 		numberPanel.setPreferredSize(new Dimension(SudokuConstants.BOARD_WIDTH, 60));
 	}
 
-	public void startTimer() {
-		startTime = -1;
-		timer.start();
-	}
+        public void startTimer() {
+                startTime = -1;
+                timer.start();
+                timeLabel.setText("00:00");
+        }
 
 	public void stopTimer() {
 		timer.stop();
@@ -177,31 +181,26 @@ public class SudokuView extends JFrame {
 	/** The entry main()  method */
 	public static void main(String args[]) {
 
-		try {
-			for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-				if ("Nimbus".equals(info.getName())) {
-					UIManager.setLookAndFeel(info.getClassName());
-					break;
-				}
-			}
-		} catch (ClassNotFoundException ex) {
-			java.util.logging.Logger.getLogger(View.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-		} catch (InstantiationException ex) {
-			java.util.logging.Logger.getLogger(View.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-		} catch (IllegalAccessException ex) {
-			java.util.logging.Logger.getLogger(View.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-		} catch (UnsupportedLookAndFeelException ex) {
-			java.util.logging.Logger.getLogger(View.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-		}
+                try {
+                        for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                                if ("Nimbus".equals(info.getName())) {
+                                        UIManager.setLookAndFeel(info.getClassName());
+                                        break;
+                                }
+                        }
+                } catch (ClassNotFoundException ex) {
+                        LOGGER.log(Level.SEVERE, null, ex);
+                } catch (InstantiationException ex) {
+                        LOGGER.log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                        LOGGER.log(Level.SEVERE, null, ex);
+                } catch (UnsupportedLookAndFeelException ex) {
+                        LOGGER.log(Level.SEVERE, null, ex);
+                }
 
-		/* Create and display the form */
-		EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				new SudokuView().setVisible(true);
-			}
-		});
-	}
+                /* Create and display the form */
+                EventQueue.invokeLater(() -> new SudokuView().setVisible(true));
+        }
 
 }
 

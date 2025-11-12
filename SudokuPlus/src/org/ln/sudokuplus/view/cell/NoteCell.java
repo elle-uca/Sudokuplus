@@ -47,14 +47,12 @@ public class NoteCell extends AbstractCell {
 	/**
 	 * @param v
 	 */
-	public void setNoteText(int[] v) {
-		for (int i = 0; i < v.length; i++) {
-			if(v[i]> 0) {
-				fields[i].setText(v[i]+"");
-			}
-		}
-		getCardCell().setMode(CellMode.NOTEPANEL);
-	}
+        public void setNoteText(int[] v) {
+                for (int i = 0; i < v.length; i++) {
+                        fields[i].setText(v[i] > 0 ? Integer.toString(v[i]) : "");
+                }
+                getCardCell().setMode(CellMode.NOTEPANEL);
+        }
 
 
 	/**

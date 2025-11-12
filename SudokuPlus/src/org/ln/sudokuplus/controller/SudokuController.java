@@ -2,6 +2,7 @@ package org.ln.sudokuplus.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.ln.sudokuplus.model.Level;
 import org.ln.sudokuplus.model.RathiTrisalGenerator;
@@ -39,10 +40,9 @@ public class SudokuController {
 				}
 			}
 		}
-		System.out.println("Solveeeeeeeeeeeeeeeeeed  ");
-		view.stopTimer();
-		view.getBoard().highlightSolved();
-	}
+                view.stopTimer();
+                view.getBoard().highlightSolved();
+        }
 
 	/**
 	 * Generate a new puzzle; and reset the game board of cells based on the puzzle.
@@ -68,28 +68,23 @@ public class SudokuController {
 		view.startTimer();
 	}
 
-	   // Random generator
-	   int randomGenerator(int num){
-	       return (int) Math.floor((Math.random() * num + 1));
-	   }
-
-	   /**
-	 * @param cells
-	 * @param toGuess
-	 */
-	   public void removeDigits(CardCell[][] cells, int toGuess){
-		   int count = toGuess;
-		   int size = SudokuConstants.GRID_SIZE;
-		   while (count != 0){
-			   int cellId = randomGenerator(size * size)-1;
-			   int i = (cellId / size);
-			   int j = cellId % size;
-			   if (cells[i][j].getStatus() == CellStatus.GIVEN){
-				   count--;
-				   cells[i][j].setStatus(CellStatus.TO_GUESS);
-			   }
-		   }
-	   }
+           /**
+         * @param cells
+         * @param toGuess
+         */
+           public void removeDigits(CardCell[][] cells, int toGuess){
+                   int count = toGuess;
+                   int size = SudokuConstants.GRID_SIZE;
+                   while (count != 0){
+                           int cellId = ThreadLocalRandom.current().nextInt(size * size);
+                           int i = (cellId / size);
+                           int j = cellId % size;
+                           if (cells[i][j].getStatus() == CellStatus.GIVEN){
+                                   count--;
+                                   cells[i][j].setStatus(CellStatus.TO_GUESS);
+                           }
+                   }
+           }
 
 
 
@@ -161,16 +156,14 @@ public class SudokuController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			//System.out.println("action  "+e.getActionCommand());
-			CardCell cc = controller.getView().getBoard().getSelected();
-			if(cc == null)
-				return;
-			
-			// due possibilità
-			System.out.println("mode  "+controller.isModeNote());
-			if(controller.isModeNote()) {
-				cc.setMode(CellMode.NOTEPANEL);
-				cc.getNoteCell().setNoteText(e.getActionCommand(), Integer.parseInt(e.getActionCommand())-1);
+                        CardCell cc = controller.getView().getBoard().getSelected();
+                        if(cc == null)
+                                return;
+
+                        // due possibilità
+                        if(controller.isModeNote()) {
+                                cc.setMode(CellMode.NOTEPANEL);
+                                cc.getNoteCell().setNoteText(e.getActionCommand(), Integer.parseInt(e.getActionCommand())-1);
 			}else {
 				cc.setMode(CellMode.CELLPANEL);
 				cc.setNumber(e.getActionCommand());

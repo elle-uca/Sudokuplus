@@ -62,12 +62,12 @@ public class GameBoard extends JPanel {
 	 * @param c
 	 */
 	public void highlightRelatedCell(CardCell c) {
-		for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
-			for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
-				cells[row][col].paint();
-				cells[row][col].setFontCell(SudokuConstants.FONT_NUMBERS);
-			}
-		}
+                for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
+                        for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
+                                cells[row][col].paint();
+                                cells[row][col].setFontCell(SudokuConstants.FONT_NUMBERS);
+                        }
+                }
 
 		/** highlight rows */
 		for (int i = 0; i < cells.length; i++) {
@@ -89,21 +89,18 @@ public class GameBoard extends JPanel {
 		}
 		
 		/** highlight equal number */
-		if(c.getStatus() == CellStatus.GIVEN || c .getStatus() == CellStatus.CORRECT_GUESS) {
+                if(c.getStatus() == CellStatus.GIVEN || c.getStatus() == CellStatus.CORRECT_GUESS) {
 
-			for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
-				for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
-					if(cells[row][col].getNumber() == c.getNumber()	
-							
-							&& (cells[row][col].getStatus() == CellStatus.GIVEN || cells[row][col].getStatus() == CellStatus.CORRECT_GUESS)
-							) {
-						
-						System.out.println("status   "+c.getNumber());
-						cells[row][col].setBold();
-					}
-				}
-			}
-		}
+                        for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
+                                for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
+                                        if(cells[row][col].getNumber() == c.getNumber()
+                                                        && (cells[row][col].getStatus() == CellStatus.GIVEN
+                                                                        || cells[row][col].getStatus() == CellStatus.CORRECT_GUESS)) {
+                                                cells[row][col].setBold();
+                                        }
+                                }
+                        }
+                }
 		c.setSelectedCell();
 	}
 
