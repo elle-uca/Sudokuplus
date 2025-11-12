@@ -1,6 +1,6 @@
 package org.ln.sudokuplus.model;
 
-public enum Level {
+public enum GameLevel {
 
 	EASY (40, "Facile"),
 	NORMAL (45, "Normale"),
@@ -11,7 +11,7 @@ public enum Level {
 	private int toGuess;
 	private String title;
 
-	Level(int n, String title) {
+	GameLevel(int n, String title) {
 		this.toGuess = n;
 		this.title = title;
 	}

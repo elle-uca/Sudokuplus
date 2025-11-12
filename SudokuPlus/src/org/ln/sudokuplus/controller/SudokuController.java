@@ -2,9 +2,13 @@ package org.ln.sudokuplus.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
-import org.ln.sudokuplus.model.Level;
+import org.ln.sudokuplus.model.GameLevel;
 import org.ln.sudokuplus.model.RathiTrisalGenerator;
 import org.ln.sudokuplus.model.SudokuConstants;
 import org.ln.sudokuplus.model.SudokuConstants.CellMode;
@@ -49,7 +53,7 @@ public class SudokuController {
 	 * You can call this method to start a new game.
 	 * @param object
 	 */
-	public void newGame(Level level) {
+	public void newGame(GameLevel gameLevel) {
 		CardCell[][] cells = view.getBoard().getCardCells();
 		RathiTrisalGenerator gen = new RathiTrisalGenerator();
 
@@ -62,7 +66,7 @@ public class SudokuController {
 				cells[row][col].setGiven(gameMat[row][col]);
 			}
 		}
-		removeDigits(cells, level.getToGuess());
+		removeDigits(cells, gameLevel.getToGuess());
 		view.enableButtons();
 		checkDisableButtons();
 		view.startTimer();
@@ -72,20 +76,43 @@ public class SudokuController {
          * @param cells
          * @param toGuess
          */
-           public void removeDigits(CardCell[][] cells, int toGuess){
-                   int count = toGuess;
-                   int size = SudokuConstants.GRID_SIZE;
-                   while (count != 0){
-                           int cellId = ThreadLocalRandom.current().nextInt(size * size);
-                           int i = (cellId / size);
-                           int j = cellId % size;
-                           if (cells[i][j].getStatus() == CellStatus.GIVEN){
-                                   count--;
-                                   cells[i][j].setStatus(CellStatus.TO_GUESS);
-                           }
-                   }
-           }
+//           public void removeDigits(CardCell[][] cells, int toGuess){
+//                   int count = toGuess;
+//                   int size = SudokuConstants.GRID_SIZE;
+//                   while (count != 0){
+//                           int cellId = ThreadLocalRandom.current().nextInt(size * size);
+//                           int i = (cellId / size);
+//                           int j = cellId % size;
+//                           if (cells[i][j].getStatus() == CellStatus.GIVEN){
+//                                   count--;
+//                                   cells[i][j].setStatus(CellStatus.TO_GUESS);
+//                           }
+//                   }
+//           }
 
+	public void removeDigits(CardCell[][] cells, int toGuess) {
+	    int size = SudokuConstants.GRID_SIZE;
+	    int total = size * size;
+
+	    // Genera una lista di tutti gli indici [0..80]
+	    List<Integer> indices = IntStream.range(0, total)
+	            .boxed()
+	            .collect(Collectors.toList());
+
+	    // Mischia l'ordine in modo casuale
+	    Collections.shuffle(indices, ThreadLocalRandom.current());
+
+	    // Prendi i primi 'toGuess' indici e rendili TO_GUESS
+	    for (int k = 0; k < toGuess && k < total; k++) {
+	        int cellId = indices.get(k);
+	        int i = cellId / size;
+	        int j = cellId % size;
+
+	        if (cells[i][j].getStatus() == CellStatus.GIVEN) {
+	            cells[i][j].setStatus(CellStatus.TO_GUESS);
+	        }
+	    }
+	}
 
 
 	/**

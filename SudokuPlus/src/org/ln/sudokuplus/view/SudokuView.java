@@ -24,7 +24,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
 import org.ln.sudokuplus.controller.SudokuController;
-import org.ln.sudokuplus.model.Level;
+import org.ln.sudokuplus.model.GameLevel;
 import org.ln.sudokuplus.model.SudokuConstants;
 
 
@@ -45,7 +45,7 @@ public class SudokuView extends JFrame {
 	private JButton btnAdvNote = new JButton("Adv Note");
 	private JLabel levelLabel = new JLabel("Level");
 	private JLabel timeLabel = new JLabel("");
-	private JComboBox<Level> comboLevel;
+	private JComboBox<GameLevel> comboLevel;
 	private JButton[] numbers = new JButton[SudokuConstants.GRID_SIZE];
 	private JPanel numberPanel = new JPanel(new GridLayout(1, SudokuConstants.GRID_SIZE));
 	private SudokuController controller;
@@ -56,7 +56,7 @@ public class SudokuView extends JFrame {
 	// Constructor
 	public SudokuView() {
 		controller = new SudokuController(this);
-		comboLevel = new JComboBox<>(Level.values());
+		comboLevel = new JComboBox<>(GameLevel.values());
 		initNumberPanel();
 
 		btnNote.setEnabled(false);
@@ -85,7 +85,7 @@ public class SudokuView extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				controller.newGame((Level) comboLevel.getSelectedItem());
+				controller.newGame((GameLevel) comboLevel.getSelectedItem());
 			}
 		});
 
