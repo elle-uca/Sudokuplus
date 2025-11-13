@@ -7,8 +7,6 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,47 +58,31 @@ public class SudokuView extends JFrame {
 		initNumberPanel();
 
 		btnNote.setEnabled(false);
-		btnNote.addActionListener(new ActionListener() {
+                btnNote.addActionListener(e -> {
+                        //mode note On/Off
+                        boolean b = btnNote.getText().compareTo("Note Off") == 0;
+                        btnNote.setText(b ? "Note On" : "Note Off");
+                        controller.setModeNote(b);
+                });
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//mode note On/Off
-				boolean b = btnNote.getText().compareTo("Note Off") == 0;
-				btnNote.setText(b ? "Note On" : "Note Off");
-				controller.setModeNote(b);
-			}
-		});
+                btnAdvNote.setEnabled(false);
+                btnAdvNote.addActionListener(e -> {
+                        board.setAdvancedNote();
+                        //board.highlightSolved();
+                });
 
-		btnAdvNote.setEnabled(false);
-		btnAdvNote.addActionListener(new ActionListener() {
+                btnNewGame.addActionListener(
+                                e -> controller.newGame((GameLevel) comboLevel.getSelectedItem()));
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				board.setAdvancedNote();
-				//board.highlightSolved();
-			}
-		});
-
-		btnNewGame.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				controller.newGame((GameLevel) comboLevel.getSelectedItem());
-			}
-		});
-
-		timer = new Timer(1000, new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (startTime < 0) {
-					startTime = System.currentTimeMillis();
-				}
-				//long now = System.currentTimeMillis();
-				long clockTime = System.currentTimeMillis() - startTime;
-				SimpleDateFormat df = new SimpleDateFormat("mm:ss");
-				timeLabel.setText(df.format(clockTime));
-			}
-		});
+                timer = new Timer(1000, e -> {
+                        if (startTime < 0) {
+                                startTime = System.currentTimeMillis();
+                        }
+                        //long now = System.currentTimeMillis();
+                        long clockTime = System.currentTimeMillis() - startTime;
+                        SimpleDateFormat df = new SimpleDateFormat("mm:ss");
+                        timeLabel.setText(df.format(clockTime));
+                });
 
 		levelLabel.setLabelFor(comboLevel);
 		timeLabel.setText("00:00");
