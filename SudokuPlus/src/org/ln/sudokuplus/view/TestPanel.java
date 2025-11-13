@@ -97,24 +97,20 @@ public class TestPanel extends JPanel {
         jButton3 = new javax.swing.JButton();
 
        jButton1.setText("Note Off");
-       jButton1.addActionListener(new ActionListener() {
+       jButton1.addActionListener(e -> {
+		System.out.println("action  "+e.getActionCommand());
+		JButton button = (JButton) e.getSource();
+		if(e.getActionCommand().equals("Note Off")) {
+			button.setText("Note On");
+		}else {
+			button.setText("Note Off");
+		}
+		System.out.println("selected  "+selected);
 		
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			System.out.println("action  "+e.getActionCommand());
-			JButton button = (JButton) e.getSource();
-			if(e.getActionCommand().equals("Note Off")) {
-				button.setText("Note On");
-			}else {
-				button.setText("Note Off");
-			}
-			System.out.println("selected  "+selected);
-			
-			for (int i = 0; i < cells.length; i++) {
-				//if(cells[i].getSudokuCell().getLabel().getText().equals("")) {
-					//cells[i].setMode(CardCell.NOTEPANEL);
+		for (int i = 0; i < cells.length; i++) {
+			//if(cells[i].getSudokuCell().getLabel().getText().equals("")) {
+				//cells[i].setMode(CardCell.NOTEPANEL);
 //				}
-			}
 		}
 	});
         buttonPanel.add(jButton1);
