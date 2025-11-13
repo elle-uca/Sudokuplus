@@ -1,7 +1,8 @@
 package org.ln.sudokuplus.view;
 
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.ln.sudokuplus.model.SudokuConstants;
 import org.ln.sudokuplus.model.SudokuConstants.CellMode;
@@ -10,12 +11,13 @@ import org.ln.sudokuplus.view.cell.CardCell;
 
 public class Block {
 
-	private Vector<CardCell> blockCells;
+	private final List<CardCell> blockCells;
 	
 
 	public Block() {
 		super();
-		blockCells = new Vector<CardCell>(SudokuConstants.GRID_SIZE);
+		blockCells = new ArrayList<CardCell>(SudokuConstants.GRID_SIZE);
+
 	}
 
 

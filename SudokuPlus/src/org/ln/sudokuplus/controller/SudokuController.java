@@ -2,6 +2,7 @@ package org.ln.sudokuplus.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -34,19 +35,35 @@ public class SudokuController {
 	 * Check if the puzzle is solved
 	 * none of the cell have status of TO_GUESS or WRONG_GUESS
 	 */
+//	public void checkSolved() {
+//		CardCell[][] cells = view.getBoard().getCardCells();
+//		for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
+//			for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
+//				if (cells[row][col].getStatus() == CellStatus.TO_GUESS
+//						|| cells[row][col].getStatus() == CellStatus.WRONG_GUESS) {
+//					return;
+//				}
+//			}
+//		}
+//		view.stopTimer();
+//		view.getBoard().highlightSolved();
+//	}
+	
+	
 	public void checkSolved() {
-		CardCell[][] cells = view.getBoard().getCardCells();
-		for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
-			for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
-				if (cells[row][col].getStatus() == CellStatus.TO_GUESS
-						|| cells[row][col].getStatus() == CellStatus.WRONG_GUESS) {
-					return;
-				}
-			}
-		}
-                view.stopTimer();
-                view.getBoard().highlightSolved();
-        }
+	    CardCell[][] cells = view.getBoard().getCardCells();
+
+	    boolean allSolved = Arrays.stream(cells)
+	        .flatMap(Arrays::stream)
+	        .noneMatch(cell -> cell.getStatus() == CellStatus.TO_GUESS 
+	                        || cell.getStatus() == CellStatus.WRONG_GUESS);
+
+	    if (allSolved) {
+	        view.stopTimer();
+	        view.getBoard().highlightSolved();
+	    }
+	}
+
 
 	/**
 	 * Generate a new puzzle; and reset the game board of cells based on the puzzle.
@@ -72,46 +89,46 @@ public class SudokuController {
 		view.startTimer();
 	}
 
-           /**
-         * @param cells
-         * @param toGuess
-         */
-//           public void removeDigits(CardCell[][] cells, int toGuess){
-//                   int count = toGuess;
-//                   int size = SudokuConstants.GRID_SIZE;
-//                   while (count != 0){
-//                           int cellId = ThreadLocalRandom.current().nextInt(size * size);
-//                           int i = (cellId / size);
-//                           int j = cellId % size;
-//                           if (cells[i][j].getStatus() == CellStatus.GIVEN){
-//                                   count--;
-//                                   cells[i][j].setStatus(CellStatus.TO_GUESS);
-//                           }
-//                   }
-//           }
+	/**
+	 * @param cells
+	 * @param toGuess
+	 */
+	//           public void removeDigits(CardCell[][] cells, int toGuess){
+	//                   int count = toGuess;
+	//                   int size = SudokuConstants.GRID_SIZE;
+	//                   while (count != 0){
+	//                           int cellId = ThreadLocalRandom.current().nextInt(size * size);
+	//                           int i = (cellId / size);
+	//                           int j = cellId % size;
+	//                           if (cells[i][j].getStatus() == CellStatus.GIVEN){
+	//                                   count--;
+	//                                   cells[i][j].setStatus(CellStatus.TO_GUESS);
+	//                           }
+	//                   }
+	//           }
 
 	public void removeDigits(CardCell[][] cells, int toGuess) {
-	    int size = SudokuConstants.GRID_SIZE;
-	    int total = size * size;
+		int size = SudokuConstants.GRID_SIZE;
+		int total = size * size;
 
-	    // Genera una lista di tutti gli indici [0..80]
-	    List<Integer> indices = IntStream.range(0, total)
-	            .boxed()
-	            .collect(Collectors.toList());
+		// Genera una lista di tutti gli indici [0..80]
+		List<Integer> indices = IntStream.range(0, total)
+				.boxed()
+				.collect(Collectors.toList());
 
-	    // Mischia l'ordine in modo casuale
-	    Collections.shuffle(indices, ThreadLocalRandom.current());
+		// Mischia l'ordine in modo casuale
+		Collections.shuffle(indices, ThreadLocalRandom.current());
 
-	    // Prendi i primi 'toGuess' indici e rendili TO_GUESS
-	    for (int k = 0; k < toGuess && k < total; k++) {
-	        int cellId = indices.get(k);
-	        int i = cellId / size;
-	        int j = cellId % size;
+		// Prendi i primi 'toGuess' indici e rendili TO_GUESS
+		for (int k = 0; k < toGuess && k < total; k++) {
+			int cellId = indices.get(k);
+			int i = cellId / size;
+			int j = cellId % size;
 
-	        if (cells[i][j].getStatus() == CellStatus.GIVEN) {
-	            cells[i][j].setStatus(CellStatus.TO_GUESS);
-	        }
-	    }
+			if (cells[i][j].getStatus() == CellStatus.GIVEN) {
+				cells[i][j].setStatus(CellStatus.TO_GUESS);
+			}
+		}
 	}
 
 
@@ -152,22 +169,22 @@ public class SudokuController {
 		return modeNote;
 	}
 
-	
+
 	/**
 	 * @param modeNote the modeNote to set
 	 */
 	public void setModeNote(boolean modeNote) {
 		this.modeNote = modeNote;
 	}
-	
-	
+
+
 	/**
 	 * @return the view
 	 */
 	public SudokuView getView() {
 		return view;
 	}
-	
+
 	public class ButtonNumberListener implements ActionListener {
 
 
@@ -183,18 +200,18 @@ public class SudokuController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-                        CardCell cc = controller.getView().getBoard().getSelected();
-                        if(cc == null)
-                                return;
+			CardCell cc = controller.getView().getBoard().getSelected();
+			if(cc == null)
+				return;
 
-                        // due possibilità
-                        if(controller.isModeNote()) {
-                                cc.setMode(CellMode.NOTEPANEL);
-                                cc.getNoteCell().setNoteText(e.getActionCommand(), Integer.parseInt(e.getActionCommand())-1);
+			// due possibilità
+			if(controller.isModeNote()) {
+				cc.setMode(CellMode.NOTEPANEL);
+				cc.getNoteCell().setNoteText(e.getActionCommand(), Integer.parseInt(e.getActionCommand())-1);
 			}else {
 				cc.setMode(CellMode.CELLPANEL);
 				cc.setNumber(e.getActionCommand());
-				
+
 				controller.checkDisableButton(Integer.parseInt(e.getActionCommand()));
 				controller.getView().getBoard().checkCancellNote(cc);
 				controller.checkSolved();
