@@ -7,7 +7,10 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,7 +51,8 @@ public class SudokuView extends JFrame {
 	private JPanel numberPanel = new JPanel(new GridLayout(1, SudokuConstants.GRID_SIZE));
 	private SudokuController controller;
 	private Timer timer;
-	private long startTime = -1;
+	private Instant startTime;
+	private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("mm:ss");
 
 
 	// Constructor
@@ -75,17 +79,15 @@ public class SudokuView extends JFrame {
                                 e -> controller.newGame((GameLevel) comboLevel.getSelectedItem()));
 
                 timer = new Timer(1000, e -> {
-                        if (startTime < 0) {
-                                startTime = System.currentTimeMillis();
+                        if (startTime == null) {
+                                return;
                         }
-                        //long now = System.currentTimeMillis();
-                        long clockTime = System.currentTimeMillis() - startTime;
-                        SimpleDateFormat df = new SimpleDateFormat("mm:ss");
-                        timeLabel.setText(df.format(clockTime));
+                        Duration elapsed = Duration.between(startTime, Instant.now());
+                        updateTimeLabel(elapsed);
                 });
 
-		levelLabel.setLabelFor(comboLevel);
-		timeLabel.setText("00:00");
+                levelLabel.setLabelFor(comboLevel);
+                updateTimeLabel(Duration.ZERO);
 		JPanel levelPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 20,5));
 		levelPanel.add(btnNewGame);
 		levelPanel.add(levelLabel);
@@ -120,14 +122,21 @@ public class SudokuView extends JFrame {
 	}
 
         public void startTimer() {
-                startTime = -1;
+                startTime = Instant.now();
                 timer.start();
-                timeLabel.setText("00:00");
+                updateTimeLabel(Duration.ZERO);
         }
 
-	public void stopTimer() {
-		timer.stop();
-	}
+        public void stopTimer() {
+                timer.stop();
+        }
+
+        private void updateTimeLabel(Duration duration) {
+                long seconds = Math.max(0, duration.getSeconds());
+                long displaySeconds = seconds % Duration.ofDays(1).getSeconds();
+                LocalTime displayTime = LocalTime.MIDNIGHT.plusSeconds(displaySeconds);
+                timeLabel.setText(TIME_FORMATTER.format(displayTime));
+        }
 
 
 	/**
