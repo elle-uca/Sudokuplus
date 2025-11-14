@@ -13,6 +13,8 @@ package org.ln.sudokuplus.model;
  *
  * This code is modified by Susobhan Akhuli
  */
+import java.util.concurrent.ThreadLocalRandom;
+
 public class RathiTrisalGenerator implements SudokuGenerator{
 
     private int[][] puzzle;
@@ -82,7 +84,7 @@ public class RathiTrisalGenerator implements SudokuGenerator{
 
     // Random generator
     int randomGenerator(int num){
-        return (int) Math.floor((Math.random()*num+1));
+        return ThreadLocalRandom.current().nextInt(1, num + 1);
     }
 
     // Check if safe to put in cell
