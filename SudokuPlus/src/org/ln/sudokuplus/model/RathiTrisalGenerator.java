@@ -1,6 +1,7 @@
 package org.ln.sudokuplus.model;
 
 /**
+ * Generator implementation based on the Rathi/Trisal algorithm for producing Sudoku puzzles.
  * Following is the improved logic for the problem.
  * 1. Fill all the diagonal 3x3 matrices.
  * 2. Fill recursively rest of the non-diagonal matrices.
@@ -21,12 +22,19 @@ public class RathiTrisalGenerator implements SudokuGenerator{
     private int grid; // number of columns/rows.
     private int squareRoot; // square root of grid
 
-    // Constructor
+    /**
+     * Creates a generator using the default 9x9 grid with no removals specified.
+     */
     public RathiTrisalGenerator(){
-    	this(9, 0);
+	this(9, 0);
     }
 
-    // Constructor
+    /**
+     * Creates a generator for the specified grid size and missing cell count.
+     *
+     * @param n overall grid dimension
+     * @param k number of cells to remove (currently unused)
+     */
     public RathiTrisalGenerator(int n, int k){
         this.grid = n;
         //this.missing = k;
@@ -38,7 +46,9 @@ public class RathiTrisalGenerator implements SudokuGenerator{
         fillValues();
     }
 
-    // Sudoku Generator
+    /**
+     * Initializes the puzzle matrix with a valid Sudoku solution.
+     */
     public void fillValues() {
         // Fill the diagonal of squareRoot x squareRoot matrices
         fillDiagonal();
@@ -118,6 +128,7 @@ public class RathiTrisalGenerator implements SudokuGenerator{
     // matrix
     boolean fillRemaining(int i, int j) {
         //  System.out.println(i+" "+j);
+                // Wrap to the next row once the column index reaches the grid width
         if (j>=grid && i<grid-1){
             i = i + 1;
             j = 0;
@@ -133,16 +144,18 @@ public class RathiTrisalGenerator implements SudokuGenerator{
         }
         else if (i < grid-squareRoot){
             if (j==i/squareRoot*squareRoot) {
-				j =  j + squareRoot;
-			}
+                                // Skip over columns already covered by filled subgrids
+                                j =  j + squareRoot;
+                        }
         }
         else{
             if (j == grid-squareRoot){
+                // Transition into the final block of rows once subgrid columns are filled
                 i = i + 1;
                 j = 0;
                 if (i>=grid) {
-					return true;
-				}
+                                        return true;
+                                }
             }
         }
 
@@ -159,12 +172,17 @@ public class RathiTrisalGenerator implements SudokuGenerator{
         return false;
     }
 
+	/**
+	 * Returns the generated puzzle grid for consumption by the UI.
+	 */
 	@Override
 	public int[][] getPuzzle() {
 		return puzzle;
 	}
 
-    // Print sudoku - for debug
+    /**
+     * Outputs the generated puzzle to standard out for debugging.
+     */
     public void printSudoku(){
         for (int i = 0; i<grid; i++){
             for (int j = 0; j<grid; j++) {
@@ -177,6 +195,11 @@ public class RathiTrisalGenerator implements SudokuGenerator{
 
 
 	// Driver code - for debug
+    /**
+     * Convenience entry point for manual verification of generated boards.
+     *
+     * @param args standard command line arguments (unused)
+     */
     public static void main(String[] args){
        RathiTrisalGenerator sudoku = new RathiTrisalGenerator();
        sudoku.printSudoku();

@@ -3,6 +3,9 @@ package org.ln.sudokuplus.model;
 import java.awt.Color;
 import java.awt.Font;
 
+/**
+ * Collection of immutable configuration values shared across the Sudoku application.
+ */
 public class SudokuConstants {
 
 	   /** Size of the board */
@@ -34,8 +37,7 @@ public class SudokuConstants {
 
 
 		/**
-		 * An enumeration of constants to represent the status
-		 * of each cell.
+		 * Represents the solving status of a single Sudoku cell.
 		 */
 		public enum CellStatus {
 			GIVEN,         // clue, no need to guess
@@ -45,8 +47,7 @@ public class SudokuConstants {
 		}
 		
 		/**
-		 * An enumeration of constants to represent the mode
-		 * of each cell: number or note.
+		 * Describes whether the cell displays a number or a note overlay.
 		 */
 		public enum CellMode {
 			CELLPANEL,       // mode cell

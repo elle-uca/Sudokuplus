@@ -1,5 +1,8 @@
 package org.ln.sudokuplus.model;
 
+/**
+ * Enumeration defining the available difficulty levels and their metadata.
+ */
 public enum GameLevel {
 
 	EASY (40, "Facile"),
@@ -17,6 +20,8 @@ public enum GameLevel {
 	}
 
 	/**
+	 * Retrieves the number of cells that should remain for the player to solve.
+	 *
 	 * @return the toGuess
 	 */
 	public int getToGuess() {
@@ -24,12 +29,17 @@ public enum GameLevel {
 	}
 
 	/**
+	 * Provides the localized label used to describe the level.
+	 *
 	 * @return the title
 	 */
 	public String getTitle() {
 		return title;
 	}
 
+	/**
+	 * Returns the localized level title for UI rendering.
+	 */
 	@Override
 	public String toString() {
 		return title;
