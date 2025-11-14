@@ -3,10 +3,10 @@ package org.ln.sudokuplus.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JPanel;
@@ -239,14 +239,7 @@ public class GameBoard extends JPanel {
 	/**
 	 * 
 	 */
-	class CellListener implements MouseListener{
-		public void mouseReleased(MouseEvent e) {}
-		@Override
-		public void mousePressed(MouseEvent e) {}
-		@Override
-		public void mouseExited(MouseEvent e) {}
-		@Override
-		public void mouseEntered(MouseEvent e) {}
+	class CellListener extends MouseAdapter {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			//System.out.println("clicked   "+e);
@@ -254,12 +247,8 @@ public class GameBoard extends JPanel {
 			pc.requestFocusInWindow();
 		}
 	}
-	
 
-	/**
-	 *
-	 */
-	class HighlightListener implements FocusListener {
+	class HighlightListener extends FocusAdapter {
 
 		@Override
 		public void focusGained(FocusEvent e) {
@@ -274,6 +263,7 @@ public class GameBoard extends JPanel {
 			pc.setBackground(new Color(238,238,238));
 		}
 	}
+
 
 
 

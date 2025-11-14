@@ -7,10 +7,10 @@ import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -49,15 +49,7 @@ public class TestPanel extends JPanel {
 	private void initCellPanel() {
 		for (int i = 0; i < 9; i++) {
 			cells[i] = new CardCell(1, i);
-			cells[i].addMouseListener(new MouseListener() {
-				@Override
-				public void mouseReleased(MouseEvent e) {}
-				@Override
-				public void mousePressed(MouseEvent e) {}
-				@Override
-				public void mouseExited(MouseEvent e) {}
-				@Override
-				public void mouseEntered(MouseEvent e) {}
+			cells[i].addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					System.out.println("clicked   "+e);
@@ -68,16 +60,16 @@ public class TestPanel extends JPanel {
 					System.out.println("has focus  "+pc.hasFocus());
 				}
 			});
-			
-			cells[i].addFocusListener(new FocusListener() {
-				
+
+			cells[i].addFocusListener(new FocusAdapter() {
+
 				@Override
 				public void focusLost(FocusEvent e) {
 //					System.out.println("focus lost   "+e);
 					AbstractCell pc = (AbstractCell) e.getSource();
 					pc.setBackground(Color.white);
 				}
-				
+
 				@Override
 				public void focusGained(FocusEvent e) {
 //					System.out.println("focus gained   "+e);
