@@ -51,7 +51,9 @@ public class GameBoard extends JPanel {
 				cells[row][col] = new CardCell(row, col);
 				cells[row][col].addMouseListener(new CellListener()); 
 				cells[row][col].addFocusListener(new HighlightListener());
-				blocks[row / 3][col / 3].addCell(cells[row][col]);
+				int blockRow = row / SudokuConstants.SUBGRID_SIZE;
+				int blockCol = col / SudokuConstants.SUBGRID_SIZE;
+				blocks[blockRow][blockCol].addCell(cells[row][col]);
 				add(cells[row][col]);
 			}
 		}
@@ -80,8 +82,8 @@ public class GameBoard extends JPanel {
 		}
 		
 		/** highlight blocks */
-		for (int y = 0; y < 3; y++) {
-			for (int x = 0; x < 3; x++) {
+                for (int y = 0; y < SudokuConstants.SUBGRID_SIZE; y++) {
+                        for (int x = 0; x < SudokuConstants.SUBGRID_SIZE; x++) {
 				if(blocks[y][x].contain(c)) {
 					blocks[y][x].highlightBlock();
 				}
@@ -159,8 +161,8 @@ public class GameBoard extends JPanel {
 	/**
 	 * @param cell
 	 */
-	public void searchCandidates(CardCell cell) {
-		int[] candidates = new int[9];
+        public void searchCandidates(CardCell cell) {
+                int[] candidates = new int[SudokuConstants.GRID_SIZE];
 		
 		for (int x = 0; x < candidates.length; x++) {
 			candidates[x] = x+1;
@@ -181,8 +183,8 @@ public class GameBoard extends JPanel {
 			}
 		}
 		
-		for (int y = 0; y < 3; y++) {
-			for (int x = 0; x < 3; x++) {
+                for (int y = 0; y < SudokuConstants.SUBGRID_SIZE; y++) {
+                        for (int x = 0; x < SudokuConstants.SUBGRID_SIZE; x++) {
 				if(blocks[y][x].contain(cell)) {
 					blocks[y][x].removeCandidates(candidates);
 				}
@@ -211,8 +213,8 @@ public class GameBoard extends JPanel {
 				}
 			}
 
-			for (int y = 0; y < 3; y++) {
-				for (int x = 0; x < 3; x++) {
+                        for (int y = 0; y < SudokuConstants.SUBGRID_SIZE; y++) {
+                                for (int x = 0; x < SudokuConstants.SUBGRID_SIZE; x++) {
 					if(blocks[y][x].contain(cell)) {
 						blocks[y][x].removeNote(cell.getNumber());
 					}
@@ -259,10 +261,10 @@ public class GameBoard extends JPanel {
 
 		@Override
 		public void focusLost(FocusEvent e) {
-			AbstractCell pc = (AbstractCell) e.getSource();
-			pc.setBackground(new Color(238,238,238));
-		}
-	}
+                        AbstractCell pc = (AbstractCell) e.getSource();
+                        pc.setBackground(SudokuConstants.BG_FOCUS_LOST);
+                }
+        }
 
 
 

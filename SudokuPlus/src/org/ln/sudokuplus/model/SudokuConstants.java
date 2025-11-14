@@ -21,6 +21,7 @@ public class SudokuConstants {
 	   public static final Color FG_WRONG_GUESS   = new Color(255, 0, 0);
 	   public static final Color BG_HIGH_CELL = new Color(220, 220, 220); // RGB
 	   public static final Color BG_HIGH_NUMBER = new Color(200, 200, 200); // RGB
+	   public static final Color BG_FOCUS_LOST = new Color(238, 238, 238);
 	   public static final Font FONT_NUMBERS = new Font("OCR A Extended", Font.PLAIN, 28);
 	   public static final Font FONT_NUMBERS_BOLD = new Font("OCR A Extended", Font.BOLD, 28);
 
@@ -28,6 +29,7 @@ public class SudokuConstants {
 	   public static final int CELL_SIZE = 60;   // Cell width/height in pixels
 	   public static final int BOARD_WIDTH  = CELL_SIZE * SudokuConstants.GRID_SIZE;
 	   public static final int BOARD_HEIGHT = CELL_SIZE * SudokuConstants.GRID_SIZE;
+	   public static final int TIMER_DELAY_MILLIS = 1000;
 
 
 

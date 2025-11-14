@@ -24,7 +24,7 @@ public class SudokuCell extends AbstractCell{
 		label.setVerticalTextPosition(JLabel.CENTER);
 		//label.setText(row+"  "+col);
 		add(label);
-		setPreferredSize(new Dimension(60,60));
+                setPreferredSize(new Dimension(SudokuConstants.CELL_SIZE, SudokuConstants.CELL_SIZE));
 		
 	}
 
