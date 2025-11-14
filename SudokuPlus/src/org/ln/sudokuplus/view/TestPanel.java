@@ -47,7 +47,7 @@ public class TestPanel extends JPanel {
     
     
 	private void initCellPanel() {
-		for (int i = 0; i < 9; i++) {
+                for (int i = 0; i < SudokuConstants.GRID_SIZE; i++) {
 			cells[i] = new CardCell(1, i);
 			cells[i].addMouseListener(new MouseAdapter() {
 				@Override
@@ -116,13 +116,13 @@ public class TestPanel extends JPanel {
 
 	private void initNumberPanel() {
 		for (int i = 0; i < numbers.length; i++) {
-			numbers[i] = new JButton((i+1)+"");
-			numbers[i].setPreferredSize(new Dimension(60, 60));
+                        numbers[i] = new JButton((i+1)+"");
+                        numbers[i].setPreferredSize(new Dimension(SudokuConstants.CELL_SIZE, SudokuConstants.CELL_SIZE));
 			numbers[i].setFocusable(false);
 			numbers[i].addActionListener(new BtNumberListener());
 			numberPanel.add(numbers[i]);
 		}
-		numberPanel.setPreferredSize(new Dimension(SudokuConstants.BOARD_WIDTH, 60));
+                numberPanel.setPreferredSize(new Dimension(SudokuConstants.BOARD_WIDTH, SudokuConstants.CELL_SIZE));
 	}
 	class BtNumberListener implements ActionListener {
 

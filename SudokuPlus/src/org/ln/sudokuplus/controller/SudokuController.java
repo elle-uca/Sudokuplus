@@ -136,7 +136,7 @@ public class SudokuController {
 	 * At new game
 	 */
 	public void checkDisableButtons() {
-		for (int i = 1; i < 10 ; i++) {
+                for (int i = 1; i <= SudokuConstants.GRID_SIZE ; i++) {
 			checkDisableButton(i);
 		}
 	}
@@ -156,7 +156,7 @@ public class SudokuController {
 				}
 			}
 		}
-		if(count == 9) {
+                if(count == SudokuConstants.GRID_SIZE) {
 			view.enableButtonsNumber(n-1, false);
 		}
 	}

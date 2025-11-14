@@ -49,8 +49,11 @@ public class SudokuView extends JFrame {
 	private JComboBox<GameLevel> comboLevel;
 	private JButton[] numbers = new JButton[SudokuConstants.GRID_SIZE];
 	private JPanel numberPanel = new JPanel(new GridLayout(1, SudokuConstants.GRID_SIZE));
-	private SudokuController controller;
-	private Timer timer;
+        private static final int LEVEL_PANEL_HGAP = 20;
+        private static final int LEVEL_PANEL_VGAP = 5;
+
+        private SudokuController controller;
+        private Timer timer;
 	private Instant startTime;
 	private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("mm:ss");
 
@@ -78,7 +81,7 @@ public class SudokuView extends JFrame {
                 btnNewGame.addActionListener(
                                 e -> controller.newGame((GameLevel) comboLevel.getSelectedItem()));
 
-                timer = new Timer(1000, e -> {
+                timer = new Timer(SudokuConstants.TIMER_DELAY_MILLIS, e -> {
                         if (startTime == null) {
                                 return;
                         }
@@ -88,7 +91,7 @@ public class SudokuView extends JFrame {
 
                 levelLabel.setLabelFor(comboLevel);
                 updateTimeLabel(Duration.ZERO);
-		JPanel levelPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 20,5));
+                JPanel levelPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, LEVEL_PANEL_HGAP, LEVEL_PANEL_VGAP));
 		levelPanel.add(btnNewGame);
 		levelPanel.add(levelLabel);
 		levelPanel.add(comboLevel);
@@ -109,17 +112,17 @@ public class SudokuView extends JFrame {
 	/**
 	 * Create number panel
 	 */
-	private void initNumberPanel() {
-		for (int i = 0; i < numbers.length; i++) {
-			numbers[i] = new JButton((i+1)+"");
-			numbers[i].setPreferredSize(new Dimension(60, 60));
-			numbers[i].setFocusable(false);
-			numbers[i].setEnabled(false);
-			numbers[i].addActionListener(controller.new ButtonNumberListener(controller));
-			numberPanel.add(numbers[i]);
-		}
-		numberPanel.setPreferredSize(new Dimension(SudokuConstants.BOARD_WIDTH, 60));
-	}
+        private void initNumberPanel() {
+                for (int i = 0; i < numbers.length; i++) {
+                        numbers[i] = new JButton((i+1)+"");
+                        numbers[i].setPreferredSize(new Dimension(SudokuConstants.CELL_SIZE, SudokuConstants.CELL_SIZE));
+                        numbers[i].setFocusable(false);
+                        numbers[i].setEnabled(false);
+                        numbers[i].addActionListener(controller.new ButtonNumberListener(controller));
+                        numberPanel.add(numbers[i]);
+                }
+                numberPanel.setPreferredSize(new Dimension(SudokuConstants.BOARD_WIDTH, SudokuConstants.CELL_SIZE));
+        }
 
         public void startTimer() {
                 startTime = Instant.now();
@@ -142,14 +145,14 @@ public class SudokuView extends JFrame {
 	/**
 	 * 
 	 */
-	public void enableButtons() {
-		for (int i = 0; i < 9 ; i++) {
-			enableButtonsNumber(i, true);
-		}
-		btnNote.setEnabled(true);
-		btnAdvNote.setEnabled(true);
+        public void enableButtons() {
+                for (int i = 0; i < SudokuConstants.GRID_SIZE ; i++) {
+                        enableButtonsNumber(i, true);
+                }
+                btnNote.setEnabled(true);
+                btnAdvNote.setEnabled(true);
 
-	}
+        }
 
 	/**
 	 * @param n

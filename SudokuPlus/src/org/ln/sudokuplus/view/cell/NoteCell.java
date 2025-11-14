@@ -11,16 +11,16 @@ import org.ln.sudokuplus.model.SudokuConstants.CellMode;
 @SuppressWarnings("serial")
 public class NoteCell extends AbstractCell {
 
-	JLabel[] fields = new JLabel[9];
+        JLabel[] fields = new JLabel[SudokuConstants.GRID_SIZE];
 
-	public NoteCell(int row, int col) {
-		super(row, col);
-		this.setLayout(new GridLayout(3, 3));
+        public NoteCell(int row, int col) {
+                super(row, col);
+                this.setLayout(new GridLayout(SudokuConstants.SUBGRID_SIZE, SudokuConstants.SUBGRID_SIZE));
 
-		for (int i = 1; i < 10; i++) {
-			JLabel note = new JLabel();
-			note.setText("");
-			note.setHorizontalAlignment(SwingConstants.CENTER);
+                for (int i = 1; i <= SudokuConstants.GRID_SIZE; i++) {
+                        JLabel note = new JLabel();
+                        note.setText("");
+                        note.setHorizontalAlignment(SwingConstants.CENTER);
 			fields[i-1] = note;
 			fields[i-1].setForeground(SudokuConstants.FG_NOTE);
 			add(note);
