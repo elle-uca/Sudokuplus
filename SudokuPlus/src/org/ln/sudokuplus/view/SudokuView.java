@@ -59,27 +59,13 @@ public class SudokuView extends JFrame {
 
 
 	// Constructor
-	public SudokuView() {
-		controller = new SudokuController(this);
-		comboLevel = new JComboBox<>(GameLevel.values());
-		initNumberPanel();
+        public SudokuView() {
+                comboLevel = new JComboBox<>(GameLevel.values());
+                initNumberPanel();
 
-		btnNote.setEnabled(false);
-                btnNote.addActionListener(e -> {
-                        //mode note On/Off
-                        boolean b = btnNote.getText().compareTo("Note Off") == 0;
-                        btnNote.setText(b ? "Note On" : "Note Off");
-                        controller.setModeNote(b);
-                });
+                btnNote.setEnabled(false);
 
                 btnAdvNote.setEnabled(false);
-                btnAdvNote.addActionListener(e -> {
-                        board.setAdvancedNote();
-                        //board.highlightSolved();
-                });
-
-                btnNewGame.addActionListener(
-                                e -> controller.newGame((GameLevel) comboLevel.getSelectedItem()));
 
                 timer = new Timer(SudokuConstants.TIMER_DELAY_MILLIS, e -> {
                         if (startTime == null) {
@@ -114,14 +100,32 @@ public class SudokuView extends JFrame {
 	 */
         private void initNumberPanel() {
                 for (int i = 0; i < numbers.length; i++) {
-                        numbers[i] = new JButton((i+1)+"");
+                        numbers[i] = new JButton((i + 1) + "");
                         numbers[i].setPreferredSize(new Dimension(SudokuConstants.CELL_SIZE, SudokuConstants.CELL_SIZE));
                         numbers[i].setFocusable(false);
                         numbers[i].setEnabled(false);
-                        numbers[i].addActionListener(controller.new ButtonNumberListener(controller));
                         numberPanel.add(numbers[i]);
                 }
                 numberPanel.setPreferredSize(new Dimension(SudokuConstants.BOARD_WIDTH, SudokuConstants.CELL_SIZE));
+        }
+
+        public void setController(SudokuController controller) {
+                this.controller = controller;
+
+                btnNote.addActionListener(e -> {
+                        boolean noteModeEnabled = btnNote.getText().compareTo("Note Off") == 0;
+                        btnNote.setText(noteModeEnabled ? "Note On" : "Note Off");
+                        controller.setModeNote(noteModeEnabled);
+                });
+
+                btnAdvNote.addActionListener(e -> board.setAdvancedNote());
+
+                btnNewGame.addActionListener(
+                                e -> controller.newGame((GameLevel) comboLevel.getSelectedItem()));
+
+                for (JButton number : numbers) {
+                        number.addActionListener(controller.new ButtonNumberListener(controller));
+                }
         }
 
         public void startTimer() {
@@ -193,7 +197,12 @@ public class SudokuView extends JFrame {
                 }
 
                 /* Create and display the form */
-                EventQueue.invokeLater(() -> new SudokuView().setVisible(true));
+                EventQueue.invokeLater(() -> {
+                        SudokuView view = new SudokuView();
+                        SudokuController controller = new SudokuController(view);
+                        view.setController(controller);
+                        view.setVisible(true);
+                });
         }
 
 }
