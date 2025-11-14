@@ -31,7 +31,7 @@ import org.ln.sudokuplus.model.SudokuConstants;
 
 
 /**
- * The main view of program
+ * Main application window that orchestrates the game board and controls.
  */
 
 @SuppressWarnings("serial")
@@ -58,7 +58,9 @@ public class SudokuView extends JFrame {
 	private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("mm:ss");
 
 
-	// Constructor
+        /**
+         * Builds the main application window and initialises UI components.
+         */
         public SudokuView() {
                 comboLevel = new JComboBox<>(GameLevel.values());
                 initNumberPanel();
@@ -95,9 +97,9 @@ public class SudokuView extends JFrame {
 		setLocationRelativeTo(null);
 	}
 
-	/**
-	 * Create number panel
-	 */
+        /**
+         * Prepares the row of number buttons used for digit entry.
+         */
         private void initNumberPanel() {
                 for (int i = 0; i < numbers.length; i++) {
                         numbers[i] = new JButton((i + 1) + "");
@@ -109,10 +111,16 @@ public class SudokuView extends JFrame {
                 numberPanel.setPreferredSize(new Dimension(SudokuConstants.BOARD_WIDTH, SudokuConstants.CELL_SIZE));
         }
 
+        /**
+         * Wires UI events to the provided controller instance.
+         *
+         * @param controller orchestrator for board interactions
+         */
         public void setController(SudokuController controller) {
                 this.controller = controller;
 
                 btnNote.addActionListener(e -> {
+                        // Update the toggle label before notifying the controller.
                         boolean noteModeEnabled = btnNote.getText().compareTo("Note Off") == 0;
                         btnNote.setText(noteModeEnabled ? "Note On" : "Note Off");
                         controller.setModeNote(noteModeEnabled);
@@ -128,12 +136,18 @@ public class SudokuView extends JFrame {
                 }
         }
 
+        /**
+         * Starts the elapsed time tracking for the current puzzle.
+         */
         public void startTimer() {
                 startTime = Instant.now();
                 timer.start();
                 updateTimeLabel(Duration.ZERO);
         }
 
+        /**
+         * Stops the in-progress game timer.
+         */
         public void stopTimer() {
                 timer.stop();
         }
@@ -147,7 +161,7 @@ public class SudokuView extends JFrame {
 
 
 	/**
-	 * 
+	 * Enables interaction controls once a game begins.
 	 */
         public void enableButtons() {
                 for (int i = 0; i < SudokuConstants.GRID_SIZE ; i++) {
@@ -159,8 +173,10 @@ public class SudokuView extends JFrame {
         }
 
 	/**
-	 * @param n
-	 * @param bool
+	 * Enables or disables the specified number button.
+	 *
+	 * @param n index of the button to update
+	 * @param bool {@code true} to enable the button
 	 */
 	public void enableButtonsNumber(int n, boolean bool) {
 		numbers[n].setEnabled(bool);
@@ -168,7 +184,9 @@ public class SudokuView extends JFrame {
 
 
 	/**
-	 * @return the board
+	 * Exposes the board component for controller access.
+	 *
+	 * @return the game board displayed in the window
 	 */
 	public GameBoard getBoard() {
 		return board;
@@ -176,7 +194,9 @@ public class SudokuView extends JFrame {
 
 
 
-	/** The entry main()  method */
+	/**
+	 * Entry point that configures the look and feel before showing the view.
+	 */
 	public static void main(String args[]) {
 
                 try {

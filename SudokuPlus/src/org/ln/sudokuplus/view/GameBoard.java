@@ -18,6 +18,9 @@ import org.ln.sudokuplus.model.SudokuConstants.CellStatus;
 import org.ln.sudokuplus.view.cell.AbstractCell;
 import org.ln.sudokuplus.view.cell.CardCell;
 
+/**
+ * Swing panel responsible for rendering and managing the Sudoku grid cells.
+ */
 @SuppressWarnings("serial")
 public class GameBoard extends JPanel {
 
@@ -61,9 +64,12 @@ public class GameBoard extends JPanel {
 
 
 	/**
-	 * @param c
+	 * Highlights row, column, block, and identical values related to the selected cell.
+	 *
+	 * @param c the cell that gained focus
 	 */
 	public void highlightRelatedCell(CardCell c) {
+		// Reset every cell to its default appearance before applying highlights.
                 for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
                         for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
                                 cells[row][col].paint();
@@ -107,6 +113,9 @@ public class GameBoard extends JPanel {
 	}
 
 	
+	/**
+	 * Resets cell appearance before showing solved-state emphasis.
+	 */
 	public void highlightSolved() {
 		for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
 			for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
@@ -123,6 +132,11 @@ public class GameBoard extends JPanel {
 	
 	
 	
+	/**
+	 * Applies a background colour to the first row. Used mainly for visual feedback tests.
+	 *
+	 * @param c the colour to apply
+	 */
 	public void highlightRow(Color c) {
 		for (int i = 0; i < cells.length; i++) {
 			cells[0][i].setBackgroundCell(c);
@@ -145,7 +159,7 @@ public class GameBoard extends JPanel {
 	
 	
 	/**
-	 * 
+	 * Calculates and assigns pencil marks for each editable cell.
 	 */
 	public void setAdvancedNote() {
 		for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
@@ -159,7 +173,9 @@ public class GameBoard extends JPanel {
 	
 	
 	/**
-	 * @param cell
+	 * Computes candidate numbers for the given cell by excluding conflicting values.
+	 *
+	 * @param cell the cell whose pencil marks should be updated
 	 */
         public void searchCandidates(CardCell cell) {
                 int[] candidates = new int[SudokuConstants.GRID_SIZE];
@@ -170,6 +186,7 @@ public class GameBoard extends JPanel {
 		
 		CardCell c;
 		for (int i = 0; i < cells.length; i++) {
+			// Remove numbers already confirmed in the same row.
 			c = cells[cell.getRow()][i];
 			if(c.getStatus().equals(CellStatus.GIVEN) || c.getStatus().equals(CellStatus.CORRECT_GUESS)){
 				candidates[c.getNumber()-1] = 0;
@@ -177,6 +194,7 @@ public class GameBoard extends JPanel {
 		}
 
 		for (int j = 0; j < cells.length; j++) {
+			// Remove numbers already confirmed in the same column.
 			c = cells[j][cell.getCol()];
 			if(c.getStatus().equals(CellStatus.GIVEN) || c.getStatus().equals(CellStatus.CORRECT_GUESS)){
 				candidates[c.getNumber()-1] = 0;
@@ -194,12 +212,15 @@ public class GameBoard extends JPanel {
 	}
 
 	/**
-	 * @param cell
+	 * Removes obsolete pencil marks around a cell once its value becomes confirmed.
+	 *
+	 * @param cell the cell that triggered the clean-up
 	 */
 	public void checkCancellNote(CardCell cell) {
 		if(cell.getStatus().equals(CellStatus.CORRECT_GUESS)) {
 			CardCell c;
 			for (int i = 0; i < cells.length; i++) {
+				// Remove numbers already confirmed in the same row.
 				c = cells[cell.getRow()][i];
 				if(c.getMode().compareTo(CellMode.NOTEPANEL) == 0){
 					c.getNoteCell().removeNote(cell.getNumber()); 
@@ -207,6 +228,7 @@ public class GameBoard extends JPanel {
 			}
 
 			for (int j = 0; j < cells.length; j++) {
+				// Remove numbers already confirmed in the same column.
 				c = cells[j][cell.getCol()];
 				if(c.getMode().compareTo(CellMode.NOTEPANEL) == 0){
 					c.getNoteCell().removeNote(cell.getNumber()); 
@@ -225,14 +247,18 @@ public class GameBoard extends JPanel {
 
 
 	/**
-	 * @return the selected
+	 * Returns the card cell that currently has focus.
+	 *
+	 * @return the selected card cell, or {@code null} when none is focused
 	 */
 	public CardCell getSelected() {
 		return selected;
 	}
 
 	/**
-	 * @return the CardCells
+	 * Provides read-only access to the board's card cell matrix.
+	 *
+	 * @return the grid of card cells composing the board
 	 */
 	public CardCell[][] getCardCells() {
 		return cells;
