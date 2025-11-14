@@ -6,6 +6,9 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
+/**
+ * Base class for every visual Sudoku cell that holds shared coordinates and borders.
+ */
 @SuppressWarnings("serial")
 public abstract class AbstractCell extends JPanel{
 	
@@ -14,16 +17,21 @@ public abstract class AbstractCell extends JPanel{
 	protected int col;
 	CardCell cardCell;
 
-
-
-	public AbstractCell(int row, int col) {
-		super();
-		this.row = row;
-		this.col = col;
-		this.setBorder(new LineBorder(Color.gray));
-		if(col == 2 || col == 5) {
-			this.setBorder( new MatteBorder(1, 1, 1, 4, Color.gray));
-		}
+        /**
+         * Creates a cell positioned at the provided row and column.
+         *
+         * @param row zero-based row index
+         * @param col zero-based column index
+         */
+        public AbstractCell(int row, int col) {
+                super();
+                this.row = row;
+                this.col = col;
+                this.setBorder(new LineBorder(Color.gray));
+                // Add thicker borders to delineate 3x3 sub-grids within the board.
+                if(col == 2 || col == 5) {
+                        this.setBorder( new MatteBorder(1, 1, 1, 4, Color.gray));
+                }
 		if(row == 2 || row == 5) {
 			this.setBorder( new MatteBorder(1, 1, 4, 1, Color.gray));
 		}
@@ -41,49 +49,64 @@ public abstract class AbstractCell extends JPanel{
 		}
 	}
 	
-	abstract void reset() ;
+        /**
+         * Clears any user-facing state rendered by the cell implementation.
+         */
+        abstract void reset() ;
 
-	/**
-	 * @return the row
-	 */
-	public int getRow() {
-		return row;
-	}
+        /**
+         * Returns the zero-based row index represented by this cell.
+         *
+         * @return the row index
+         */
+        public int getRow() {
+                return row;
+        }
 
-	/**
-	 * @param row the row to set
-	 */
-	public void setRow(int row) {
-		this.row = row;
-	}
+        /**
+         * Updates the zero-based row index metadata for this cell.
+         *
+         * @param row the row to set
+         */
+        public void setRow(int row) {
+                this.row = row;
+        }
 
-	/**
-	 * @return the col
-	 */
-	public int getCol() {
-		return col;
-	}
+        /**
+         * Returns the zero-based column index represented by this cell.
+         *
+         * @return the column index
+         */
+        public int getCol() {
+                return col;
+        }
 
-	/**
-	 * @param col the col to set
-	 */
-	public void setCol(int col) {
-		this.col = col;
-	}
-	
-	/**
-	 * @return the cCell
-	 */
-	public CardCell getCardCell() {
-		return cardCell;
-	}
+        /**
+         * Updates the zero-based column index metadata for this cell.
+         *
+         * @param col the col to set
+         */
+        public void setCol(int col) {
+                this.col = col;
+        }
 
-	/**
-	 * @param cCell the cCell to set
-	 */
-	public void setCardCell(CardCell cardCell) {
-		this.cardCell = cardCell;
-	}
+        /**
+         * Returns the parent {@link CardCell} coordinating view and note panels.
+         *
+         * @return the parent card cell
+         */
+        public CardCell getCardCell() {
+                return cardCell;
+        }
+
+        /**
+         * Assigns the parent {@link CardCell} so the cell can access shared state.
+         *
+         * @param cardCell the card cell to set
+         */
+        public void setCardCell(CardCell cardCell) {
+                this.cardCell = cardCell;
+        }
 	
 	@Override
 	public String toString() {

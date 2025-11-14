@@ -12,6 +12,9 @@ import org.ln.sudokuplus.model.SudokuConstants;
 import org.ln.sudokuplus.model.SudokuConstants.CellMode;
 import org.ln.sudokuplus.model.SudokuConstants.CellStatus;
 
+/**
+ * Composite panel containing both the main Sudoku cell and its note-taking panel.
+ */
 @SuppressWarnings("serial")
 public class CardCell extends JPanel {
 
@@ -24,65 +27,82 @@ public class CardCell extends JPanel {
 	private CellStatus status;
 	private CellMode mode;
 
-	/**
-	 * @param row
-	 * @param col
-	 */
-	public CardCell(int row, int col) {
-		super();
-		this.row = row;
-		this.col = col;
+        /**
+         * Builds a card cell composed of note and sudoku panels for the given position.
+         *
+         * @param row zero-based row index
+         * @param col zero-based column index
+         */
+        public CardCell(int row, int col) {
+                super();
+                this.row = row;
+                this.col = col;
 
-		noteCell = new NoteCell(row, col);
-		noteCell.setCardCell(this);
-		sudokuCell = new SudokuCell(row, col);
-		sudokuCell.setCardCell(this);
-		
-		cardLayout = new CardLayout();
-		setLayout(cardLayout);
-		add(noteCell, CellMode.NOTEPANEL.toString());
-		add(sudokuCell, CellMode.CELLPANEL.toString());
-		setMode(CellMode.CELLPANEL);
-		status = CellStatus.TO_GUESS;
-	}
+                noteCell = new NoteCell(row, col);
+                noteCell.setCardCell(this);
+                sudokuCell = new SudokuCell(row, col);
+                sudokuCell.setCardCell(this);
 
-	public void resetCell() {
-		sudokuCell.reset();
-		noteCell.reset();
-		setMode(CellMode.CELLPANEL);
-		status = CellStatus.TO_GUESS;
-	}
-	
-	public void setBold() {
-		sudokuCell.getLabel().setFont(SudokuConstants.FONT_NUMBERS_BOLD);
-	}
-	
-	
-	public void setFontCell(Font f) {
-		sudokuCell.getLabel().setFont(f);
-	}
+                cardLayout = new CardLayout();
+                setLayout(cardLayout);
+                // Register both panels under the card layout so they can be toggled at runtime.
+                add(noteCell, CellMode.NOTEPANEL.toString());
+                add(sudokuCell, CellMode.CELLPANEL.toString());
+                setMode(CellMode.CELLPANEL);
+                status = CellStatus.TO_GUESS;
+        }
 
-	/**
-	 * 
-	 */
-	public void setHighlightCell(){
-		setBackgroundCell(SudokuConstants.BG_HIGH_CELL);
-	}
+        /**
+         * Restores the cell to its default, editable state.
+         */
+        public void resetCell() {
+                sudokuCell.reset();
+                noteCell.reset();
+                setMode(CellMode.CELLPANEL);
+                status = CellStatus.TO_GUESS;
+        }
 
-	/**
-	 * 
-	 */
-	public void setSelectedCell(){
-		setBackgroundCell(SudokuConstants.BG_HIGH_NUMBER);
-	}	
-	
-	/**
-	 * @param color
-	 */
-	public void setBackgroundCell(Color color){
-		switch (mode) {
-		case CELLPANEL: 
-			sudokuCell.setBackground(color);
+        /**
+         * Applies the bold font to the number label for emphasis.
+         */
+        public void setBold() {
+                sudokuCell.getLabel().setFont(SudokuConstants.FONT_NUMBERS_BOLD);
+        }
+
+
+        /**
+         * Replaces the font used by the number label.
+         *
+         * @param f font applied to the number label
+         */
+        public void setFontCell(Font f) {
+                sudokuCell.getLabel().setFont(f);
+        }
+
+        /**
+         * Highlights the cell background to indicate a related cell.
+         */
+        public void setHighlightCell(){
+                setBackgroundCell(SudokuConstants.BG_HIGH_CELL);
+        }
+
+        /**
+         * Highlights the cell background to indicate direct selection.
+         */
+        public void setSelectedCell(){
+                setBackgroundCell(SudokuConstants.BG_HIGH_NUMBER);
+        }
+
+        /**
+         * Applies the provided background color to the currently visible panel.
+         *
+         * @param color new background color
+         */
+        public void setBackgroundCell(Color color){
+                // Apply the color to whichever card is active so focus styles stay consistent.
+                switch (mode) {
+                case CELLPANEL:
+                        sudokuCell.setBackground(color);
 			break;
 		case NOTEPANEL: 
 			noteCell.setBackground(color);
@@ -90,73 +110,86 @@ public class CardCell extends JPanel {
 		}
 	}
 
-	/**
-	 *
-	 */
-	@Override
-	public synchronized void addFocusListener(FocusListener l) {
-		sudokuCell.addFocusListener(l);
-		noteCell.addFocusListener(l);
-	}
+        /**
+         * Registers a focus listener on both underlying panels.
+         */
+        @Override
+        public synchronized void addFocusListener(FocusListener l) {
+                sudokuCell.addFocusListener(l);
+                noteCell.addFocusListener(l);
+        }
 
 
-	/**
-	 *
-	 */
-	@Override
-	public synchronized void addMouseListener(MouseListener l) {
-		sudokuCell.addMouseListener(l);
-		noteCell.addMouseListener(l);
-	}
+        /**
+         * Registers a mouse listener on both underlying panels.
+         */
+        @Override
+        public synchronized void addMouseListener(MouseListener l) {
+                sudokuCell.addMouseListener(l);
+                noteCell.addMouseListener(l);
+        }
 
 
-	/**
-	 *
-	 */
-	@Override
-	public boolean requestFocusInWindow() {
-		noteCell.requestFocusInWindow();
-		sudokuCell.requestFocusInWindow();
-		return true;
-	}
-
-	
-
-	/**
-	 * @param mode the mode to set
-	 */
-	public void setMode(CellMode mode) {
-		this.mode = mode;
-		cardLayout.show(this, mode.toString());
-	}
-
-	
-	/**
-	 * @return the mode
-	 */
-	public CellMode getMode() {
-		return mode;
-	}
+        /**
+         * Ensures focus requests are propagated to both child panels.
+         */
+        @Override
+        public boolean requestFocusInWindow() {
+                noteCell.requestFocusInWindow();
+                sudokuCell.requestFocusInWindow();
+                return true;
+        }
 
 
 
-	/**
-	 * @return the noteCell
-	 */
-	public NoteCell getNoteCell() {
-		return noteCell;
-	}
+        /**
+         * Shows either the note panel or the sudoku panel depending on the provided mode.
+         *
+         * @param mode the mode to set
+         */
+        public void setMode(CellMode mode) {
+                this.mode = mode;
+                cardLayout.show(this, mode.toString());
+        }
 
-	public int getNumber() {
-		return sudokuCell.getNumber();
-	}
-	
-	/**
-	 * @param number
-	 */
-	public void setNumber(String number) {
-		switch (status) {
-		case TO_GUESS:
+
+        /**
+         * Returns the current display mode of this card cell.
+         *
+         * @return the mode
+         */
+        public CellMode getMode() {
+                return mode;
+        }
+
+
+
+        /**
+         * Provides access to the note panel for additional customization.
+         *
+         * @return the note cell
+         */
+        public NoteCell getNoteCell() {
+                return noteCell;
+        }
+
+        /**
+         * Returns the number currently displayed by the sudoku panel.
+         *
+         * @return displayed number
+         */
+        public int getNumber() {
+                return sudokuCell.getNumber();
+        }
+
+        /**
+         * Updates the guessed number and refreshes the status accordingly.
+         *
+         * @param number guess entered by the user
+         */
+        public void setNumber(String number) {
+                switch (status) {
+                case TO_GUESS:
 			sudokuCell.setText(number);
 			setStatus(sudokuCell.isCorrect(Integer.parseInt(number))? 
 					CellStatus.CORRECT_GUESS: CellStatus.WRONG_GUESS);
@@ -173,10 +206,12 @@ public class CardCell extends JPanel {
 	}
 
 
-	/** This Cell paints itself based on its status */
-	public void paint() {
-		
-		switch (status) {
+        /**
+         * Updates colors and text based on the current {@link CellStatus}.
+         */
+        public void paint() {
+
+                switch (status) {
 		case GIVEN:
 			sudokuCell.setText(sudokuCell.getNumber() + "");
 			sudokuCell.setBackground(SudokuConstants.BG_GIVEN);
@@ -198,45 +233,55 @@ public class CardCell extends JPanel {
 		}
 	}
 
-	/**
-	 * @param number
-	 */
-	public void setGiven(int number) {
-		sudokuCell.setNumber(number);
-	}
+        /**
+         * Marks the cell as given and stores the fixed number.
+         *
+         * @param number provided value from the puzzle definition
+         */
+        public void setGiven(int number) {
+                sudokuCell.setNumber(number);
+        }
 
-	/**
-	 * @return the status
-	 */
-	public CellStatus getStatus() {
-		return status;
-	}
-
-
-	/**
-	 * @param status the status to set
-	 */
-	public void setStatus(CellStatus status) {
-		this.status = status;
-		paint();
-	}
-
-	
-	
-	/**
-	 * @return the row
-	 */
-	public int getRow() {
-		return row;
-	}
+        /**
+         * Returns the current status associated with the cell.
+         *
+         * @return the status
+         */
+        public CellStatus getStatus() {
+                return status;
+        }
 
 
-	/**
-	 * @return the col
-	 */
-	public int getCol() {
-		return col;
-	}
+        /**
+         * Updates the cell status and repaints the cell to match the new state.
+         *
+         * @param status the status to set
+         */
+        public void setStatus(CellStatus status) {
+                this.status = status;
+                paint();
+        }
+
+
+
+        /**
+         * Returns the zero-based row index for this cell.
+         *
+         * @return the row
+         */
+        public int getRow() {
+                return row;
+        }
+
+
+        /**
+         * Returns the zero-based column index for this cell.
+         *
+         * @return the col
+         */
+        public int getCol() {
+                return col;
+        }
 
 
 
