@@ -20,6 +20,9 @@ import javax.swing.WindowConstants;
 import org.ln.sudokuplus.model.SudokuConstants;
 import org.ln.sudokuplus.view.cell.AbstractCell;
 import org.ln.sudokuplus.view.cell.CardCell;
+/**
+ * Simple harness used to manually test cell focus and number input interactions.
+ */
 @SuppressWarnings("serial")
 public class TestPanel extends JPanel {
 
@@ -34,6 +37,9 @@ public class TestPanel extends JPanel {
     AbstractCell selected;
     CardCell[] cells = new CardCell[SudokuConstants.GRID_SIZE];
 
+    /**
+     * Builds the temporary frame with button, cell, and number panels.
+     */
     public TestPanel() {
 		super();
 		initButtonPanel();
@@ -130,6 +136,7 @@ public class TestPanel extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("action  "+e.getActionCommand());
 			if(selected == null) {
+				// Ignore button presses when no cell is selected.
 				return;
 			}
 			selected.getCardCell().setNumber(e.getActionCommand());
@@ -147,6 +154,11 @@ public class TestPanel extends JPanel {
         f.setVisible(true);
     }
 
+    /**
+     * Launches the test panel for manual verification.
+     *
+     * @param args standard program arguments
+     */
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             new TestPanel().display();
