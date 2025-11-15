@@ -5,19 +5,19 @@ package org.ln.sudokuplus.model;
  */
 public enum GameLevel {
 
-	EASY (40, "Facile"),
-	NORMAL (45, "Normale"),
-	MEDIUM (48, "Medio"),
-	HARD (52, "Difficile"),
-	EXPERT (58, "Esperto");
+        EASY(40, "Facile"),
+        NORMAL(45, "Normale"),
+        MEDIUM(48, "Medio"),
+        HARD(52, "Difficile"),
+        EXPERT(58, "Esperto");
 
-	private int toGuess;
-	private String title;
+        private final int toGuess;
+        private final String title;
 
-	GameLevel(int n, String title) {
-		this.toGuess = n;
-		this.title = title;
-	}
+        GameLevel(int toGuess, String title) {
+                this.toGuess = toGuess;
+                this.title = title;
+        }
 
 	/**
 	 * Retrieves the number of cells that should remain for the player to solve.
