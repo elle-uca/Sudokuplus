@@ -21,9 +21,9 @@ public class CardCell extends JPanel {
 	protected int row;
 	protected int col;
 
-	private CardLayout cardLayout;
-	private NoteCell noteCell;
-	private SudokuCell sudokuCell;
+       private final CardLayout cardLayout;
+       private final NoteCell noteCell;
+       private final SudokuCell sudokuCell;
 	private CellStatus status;
 	private CellMode mode;
 
@@ -98,17 +98,15 @@ public class CardCell extends JPanel {
          *
          * @param color new background color
          */
-        public void setBackgroundCell(Color color){
-                // Apply the color to whichever card is active so focus styles stay consistent.
-                switch (mode) {
-                case CELLPANEL:
-                        sudokuCell.setBackground(color);
-			break;
-		case NOTEPANEL: 
-			noteCell.setBackground(color);
-			break;
-		}
-	}
+       public void setBackgroundCell(Color color){
+               // Apply the color to whichever card is active so focus styles stay consistent.
+               switch (mode) {
+               case CELLPANEL -> sudokuCell.setBackground(color);
+               case NOTEPANEL -> noteCell.setBackground(color);
+               default -> {
+               }
+               }
+       }
 
         /**
          * Registers a focus listener on both underlying panels.
@@ -187,51 +185,56 @@ public class CardCell extends JPanel {
          *
          * @param number guess entered by the user
          */
-        public void setNumber(String number) {
-                switch (status) {
-                case TO_GUESS:
-			sudokuCell.setText(number);
-			setStatus(sudokuCell.isCorrect(Integer.parseInt(number))? 
-					CellStatus.CORRECT_GUESS: CellStatus.WRONG_GUESS);
-			break;
+       public void setNumber(String number) {
+               switch (status) {
+               case TO_GUESS -> {
+                       sudokuCell.setText(number);
+                       int parsedNumber = Integer.parseInt(number);
+                       setStatus(sudokuCell.isCorrect(parsedNumber) ?
+                                       CellStatus.CORRECT_GUESS : CellStatus.WRONG_GUESS);
+               }
 
-		case WRONG_GUESS:
-			sudokuCell.setText(number);
-			if(sudokuCell.isCorrect(Integer.parseInt(number)))
-				setStatus(CellStatus.CORRECT_GUESS);
-			break;
-		default:
-			break;
-		}
-	}
+               case WRONG_GUESS -> {
+                       sudokuCell.setText(number);
+                       int parsedNumber = Integer.parseInt(number);
+                       if (sudokuCell.isCorrect(parsedNumber)) {
+                               setStatus(CellStatus.CORRECT_GUESS);
+                       }
+               }
+               default -> {
+               }
+               }
+       }
 
 
         /**
          * Updates colors and text based on the current {@link CellStatus}.
          */
-        public void paint() {
+       public void paint() {
 
-                switch (status) {
-		case GIVEN:
-			sudokuCell.setText(sudokuCell.getNumber() + "");
-			sudokuCell.setBackground(SudokuConstants.BG_GIVEN);
-			sudokuCell.getLabel().setForeground(SudokuConstants.FG_GIVEN);
-			break;
-		case TO_GUESS:
-			sudokuCell.setText("");
-			sudokuCell.setBackground(SudokuConstants.BG_TO_GUESS);
-			sudokuCell.getLabel().setForeground(SudokuConstants.FG_NOT_GIVEN);
-			break;
-		case CORRECT_GUESS:
-			sudokuCell.getLabel().setForeground(SudokuConstants.FG_CORRECT_GUESS);
-			sudokuCell.setBackground(SudokuConstants.BG_CORRECT_GUESS);
-			break;
-		case WRONG_GUESS:
-			sudokuCell.getLabel().setForeground(SudokuConstants.FG_WRONG_GUESS);
-			sudokuCell.setBackground(SudokuConstants.BG_WRONG_GUESS);
-			break;
-		}
-	}
+               switch (status) {
+               case GIVEN -> {
+                       sudokuCell.setText(sudokuCell.getNumber() + "");
+                       sudokuCell.setBackground(SudokuConstants.BG_GIVEN);
+                       sudokuCell.getLabel().setForeground(SudokuConstants.FG_GIVEN);
+               }
+               case TO_GUESS -> {
+                       sudokuCell.setText("");
+                       sudokuCell.setBackground(SudokuConstants.BG_TO_GUESS);
+                       sudokuCell.getLabel().setForeground(SudokuConstants.FG_NOT_GIVEN);
+               }
+               case CORRECT_GUESS -> {
+                       sudokuCell.getLabel().setForeground(SudokuConstants.FG_CORRECT_GUESS);
+                       sudokuCell.setBackground(SudokuConstants.BG_CORRECT_GUESS);
+               }
+               case WRONG_GUESS -> {
+                       sudokuCell.getLabel().setForeground(SudokuConstants.FG_WRONG_GUESS);
+                       sudokuCell.setBackground(SudokuConstants.BG_WRONG_GUESS);
+               }
+               default -> {
+               }
+               }
+       }
 
         /**
          * Marks the cell as given and stores the fixed number.
