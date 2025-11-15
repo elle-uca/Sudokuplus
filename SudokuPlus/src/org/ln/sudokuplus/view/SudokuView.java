@@ -37,7 +37,7 @@ import org.ln.sudokuplus.model.SudokuConstants;
 @SuppressWarnings("serial")
 public class SudokuView extends JFrame {
 
-        private static final Logger LOGGER = Logger.getLogger(SudokuView.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(SudokuView.class.getName());
 
 	// private variables
 	private GameBoard board = new GameBoard();
@@ -49,37 +49,37 @@ public class SudokuView extends JFrame {
 	private JComboBox<GameLevel> comboLevel;
 	private JButton[] numbers = new JButton[SudokuConstants.GRID_SIZE];
 	private JPanel numberPanel = new JPanel(new GridLayout(1, SudokuConstants.GRID_SIZE));
-        private static final int LEVEL_PANEL_HGAP = 20;
-        private static final int LEVEL_PANEL_VGAP = 5;
+	private static final int LEVEL_PANEL_HGAP = 20;
+	private static final int LEVEL_PANEL_VGAP = 5;
 
-        private SudokuController controller;
-        private Timer timer;
+	private SudokuController controller;
+	private Timer timer;
 	private Instant startTime;
 	private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("mm:ss");
 
 
-        /**
-         * Builds the main application window and initialises UI components.
-         */
-        public SudokuView() {
-                comboLevel = new JComboBox<>(GameLevel.values());
-                initNumberPanel();
+	/**
+	 * Builds the main application window and initialises UI components.
+	 */
+	public SudokuView() {
+		comboLevel = new JComboBox<>(GameLevel.values());
+		initNumberPanel();
 
-                btnNote.setEnabled(false);
+		btnNote.setEnabled(false);
 
-                btnAdvNote.setEnabled(false);
+		btnAdvNote.setEnabled(false);
 
-                timer = new Timer(SudokuConstants.TIMER_DELAY_MILLIS, e -> {
-                        if (startTime == null) {
-                                return;
-                        }
-                        Duration elapsed = Duration.between(startTime, Instant.now());
-                        updateTimeLabel(elapsed);
-                });
+		timer = new Timer(SudokuConstants.TIMER_DELAY_MILLIS, e -> {
+			if (startTime == null) {
+				return;
+			}
+			Duration elapsed = Duration.between(startTime, Instant.now());
+			updateTimeLabel(elapsed);
+		});
 
-                levelLabel.setLabelFor(comboLevel);
-                updateTimeLabel(Duration.ZERO);
-                JPanel levelPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, LEVEL_PANEL_HGAP, LEVEL_PANEL_VGAP));
+		levelLabel.setLabelFor(comboLevel);
+		updateTimeLabel(Duration.ZERO);
+		JPanel levelPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, LEVEL_PANEL_HGAP, LEVEL_PANEL_VGAP));
 		levelPanel.add(btnNewGame);
 		levelPanel.add(levelLabel);
 		levelPanel.add(comboLevel);
@@ -97,80 +97,80 @@ public class SudokuView extends JFrame {
 		setLocationRelativeTo(null);
 	}
 
-        /**
-         * Prepares the row of number buttons used for digit entry.
-         */
-        private void initNumberPanel() {
-                for (int i = 0; i < numbers.length; i++) {
-                        numbers[i] = new JButton((i + 1) + "");
-                        numbers[i].setPreferredSize(new Dimension(SudokuConstants.CELL_SIZE, SudokuConstants.CELL_SIZE));
-                        numbers[i].setFocusable(false);
-                        numbers[i].setEnabled(false);
-                        numberPanel.add(numbers[i]);
-                }
-                numberPanel.setPreferredSize(new Dimension(SudokuConstants.BOARD_WIDTH, SudokuConstants.CELL_SIZE));
-        }
+	/**
+	 * Prepares the row of number buttons used for digit entry.
+	 */
+	private void initNumberPanel() {
+		for (int i = 0; i < numbers.length; i++) {
+			numbers[i] = new JButton((i + 1) + "");
+			numbers[i].setPreferredSize(new Dimension(SudokuConstants.CELL_SIZE, SudokuConstants.CELL_SIZE));
+			numbers[i].setFocusable(false);
+			numbers[i].setEnabled(false);
+			numberPanel.add(numbers[i]);
+		}
+		numberPanel.setPreferredSize(new Dimension(SudokuConstants.BOARD_WIDTH, SudokuConstants.CELL_SIZE));
+	}
 
-        /**
-         * Wires UI events to the provided controller instance.
-         *
-         * @param controller orchestrator for board interactions
-         */
-        public void setController(SudokuController controller) {
-                this.controller = controller;
+	/**
+	 * Wires UI events to the provided controller instance.
+	 *
+	 * @param controller orchestrator for board interactions
+	 */
+	public void setController(SudokuController controller) {
+		this.controller = controller;
 
-                btnNote.addActionListener(e -> {
-                        // Update the toggle label before notifying the controller.
-                        boolean noteModeEnabled = btnNote.getText().compareTo("Note Off") == 0;
-                        btnNote.setText(noteModeEnabled ? "Note On" : "Note Off");
-                        controller.setModeNote(noteModeEnabled);
-                });
+		btnNote.addActionListener(e -> {
+			// Update the toggle label before notifying the controller.
+			boolean noteModeEnabled = btnNote.getText().compareTo("Note Off") == 0;
+			btnNote.setText(noteModeEnabled ? "Note On" : "Note Off");
+			controller.setModeNote(noteModeEnabled);
+		});
 
-                btnAdvNote.addActionListener(e -> board.setAdvancedNote());
+		btnAdvNote.addActionListener(e -> board.setAdvancedNote());
 
-                btnNewGame.addActionListener(
-                                e -> controller.newGame((GameLevel) comboLevel.getSelectedItem()));
+		btnNewGame.addActionListener(
+				e -> controller.newGame((GameLevel) comboLevel.getSelectedItem()));
 
-                for (JButton number : numbers) {
-                        number.addActionListener(controller.new ButtonNumberListener(controller));
-                }
-        }
+		for (JButton number : numbers) {
+			number.addActionListener(controller.new ButtonNumberListener(controller));
+		}
+	}
 
-        /**
-         * Starts the elapsed time tracking for the current puzzle.
-         */
-        public void startTimer() {
-                startTime = Instant.now();
-                timer.start();
-                updateTimeLabel(Duration.ZERO);
-        }
+	/**
+	 * Starts the elapsed time tracking for the current puzzle.
+	 */
+	public void startTimer() {
+		startTime = Instant.now();
+		timer.start();
+		updateTimeLabel(Duration.ZERO);
+	}
 
-        /**
-         * Stops the in-progress game timer.
-         */
-        public void stopTimer() {
-                timer.stop();
-        }
+	/**
+	 * Stops the in-progress game timer.
+	 */
+	public void stopTimer() {
+		timer.stop();
+	}
 
-        private void updateTimeLabel(Duration duration) {
-                long seconds = Math.max(0, duration.getSeconds());
-                long displaySeconds = seconds % Duration.ofDays(1).getSeconds();
-                LocalTime displayTime = LocalTime.MIDNIGHT.plusSeconds(displaySeconds);
-                timeLabel.setText(TIME_FORMATTER.format(displayTime));
-        }
+	private void updateTimeLabel(Duration duration) {
+		long seconds = Math.max(0, duration.getSeconds());
+		long displaySeconds = seconds % Duration.ofDays(1).getSeconds();
+		LocalTime displayTime = LocalTime.MIDNIGHT.plusSeconds(displaySeconds);
+		timeLabel.setText(TIME_FORMATTER.format(displayTime));
+	}
 
 
 	/**
 	 * Enables interaction controls once a game begins.
 	 */
-        public void enableButtons() {
-                for (int i = 0; i < SudokuConstants.GRID_SIZE ; i++) {
-                        enableButtonsNumber(i, true);
-                }
-                btnNote.setEnabled(true);
-                btnAdvNote.setEnabled(true);
+	public void enableButtons() {
+		for (int i = 0; i < SudokuConstants.GRID_SIZE ; i++) {
+			enableButtonsNumber(i, true);
+		}
+		btnNote.setEnabled(true);
+		btnAdvNote.setEnabled(true);
 
-        }
+	}
 
 	/**
 	 * Enables or disables the specified number button.
@@ -199,31 +199,31 @@ public class SudokuView extends JFrame {
 	 */
 	public static void main(String args[]) {
 
-                try {
-                        for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                                if ("Nimbus".equals(info.getName())) {
-                                        UIManager.setLookAndFeel(info.getClassName());
-                                        break;
-                                }
-                        }
-                } catch (ClassNotFoundException ex) {
-                        LOGGER.log(Level.SEVERE, null, ex);
-                } catch (InstantiationException ex) {
-                        LOGGER.log(Level.SEVERE, null, ex);
-                } catch (IllegalAccessException ex) {
-                        LOGGER.log(Level.SEVERE, null, ex);
-                } catch (UnsupportedLookAndFeelException ex) {
-                        LOGGER.log(Level.SEVERE, null, ex);
-                }
+		try {
+			for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+				if ("Nimbus".equals(info.getName())) {
+					UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+		} catch (ClassNotFoundException ex) {
+			LOGGER.log(Level.SEVERE, null, ex);
+		} catch (InstantiationException ex) {
+			LOGGER.log(Level.SEVERE, null, ex);
+		} catch (IllegalAccessException ex) {
+			LOGGER.log(Level.SEVERE, null, ex);
+		} catch (UnsupportedLookAndFeelException ex) {
+			LOGGER.log(Level.SEVERE, null, ex);
+		}
 
-                /* Create and display the form */
-                EventQueue.invokeLater(() -> {
-                        SudokuView view = new SudokuView();
-                        SudokuController controller = new SudokuController(view);
-                        view.setController(controller);
-                        view.setVisible(true);
-                });
-        }
+		/* Create and display the form */
+		EventQueue.invokeLater(() -> {
+			SudokuView view = new SudokuView();
+			SudokuController controller = new SudokuController(view);
+			view.setController(controller);
+			view.setVisible(true);
+		});
+	}
 
 }
 
