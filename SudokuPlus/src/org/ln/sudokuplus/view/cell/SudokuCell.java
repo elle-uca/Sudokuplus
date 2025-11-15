@@ -11,11 +11,10 @@ import org.ln.sudokuplus.model.SudokuConstants.CellStatus;
  * Visual component representing the primary Sudoku value inside the grid.
  */
 @SuppressWarnings("serial")
-public class SudokuCell extends AbstractCell{
-	
+public class SudokuCell extends AbstractCell {
 
-	   private int number;
-	   private JLabel label;
+        private int number;
+        private JLabel label;
         /**
          * Creates a Sudoku cell for the given coordinates and configures its label.
          *
@@ -24,12 +23,10 @@ public class SudokuCell extends AbstractCell{
          */
         public SudokuCell(int row, int col) {
                 super(row, col);
-                //this.number = number;
                 label = new JLabel();
                 label.setFont(SudokuConstants.FONT_NUMBERS);
                 label.setHorizontalTextPosition(JLabel.CENTER);
                 label.setVerticalTextPosition(JLabel.CENTER);
-                //label.setText(row+"  "+col);
                 add(label);
                 setPreferredSize(new Dimension(SudokuConstants.CELL_SIZE, SudokuConstants.CELL_SIZE));
 
@@ -86,7 +83,7 @@ public class SudokuCell extends AbstractCell{
          */
         public void setNumber(int number) {
                 this.number = number;
-                label.setText(""+number);
+                label.setText(String.valueOf(number));
                 getCardCell().setStatus(CellStatus.GIVEN);
         }
 
