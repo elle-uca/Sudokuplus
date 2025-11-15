@@ -1,6 +1,5 @@
 package org.ln.sudokuplus.view;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,17 +14,14 @@ import org.ln.sudokuplus.view.cell.CardCell;
 public class Block {
 
 	private final List<CardCell> blockCells;
-	
 
 	/**
 	 * Creates an empty block ready to receive its member cells.
 	 */
 	public Block() {
-               super();
-               blockCells = new ArrayList<CardCell>(SudokuConstants.GRID_SIZE);
-
+		super();
+		blockCells = new ArrayList<>(SudokuConstants.GRID_SIZE);
 	}
-
 
 	/**
 	 * Checks whether the supplied cell is already registered within the block.
@@ -33,28 +29,21 @@ public class Block {
 	 * @param other the cell being queried
 	 * @return {@code true} if the block contains the cell
 	 */
-	public boolean contain(CardCell other){
-		for (CardCell cell : blockCells) {
-			if(cell.equals(other)) {
-				return true;
-			}
-		}
-		return  false;
+	public boolean contain(CardCell other) {
+		return blockCells.contains(other);
 	}
-	
-	
+
 	/**
 	 * Removes the provided note value from every note-enabled cell in this block.
 	 *
 	 * @param num note value to delete
 	 */
 	public void removeNote(int num) {
-               for (CardCell cell : blockCells) {
-                       if(cell.getMode().compareTo(CellMode.NOTEPANEL) == 0) {
-                               cell.getNoteCell().removeNote(num);
-                       }
-                       //cell.getNoteCell()
-               }
+		for (CardCell cell : blockCells) {
+			if (cell.getMode() == CellMode.NOTEPANEL) {
+				cell.getNoteCell().removeNote(num);
+			}
+		}
 	}
 
 	/**
@@ -62,25 +51,21 @@ public class Block {
 	 *
 	 * @param v candidate values indexed by value minus one
 	 */
-	public void removeCandidates(int[] v){
-               for (CardCell cell : blockCells) {
-                       if(cell.getStatus().equals(CellStatus.GIVEN) || cell.getStatus().equals(CellStatus.CORRECT_GUESS)) {
-                               // Set index to zero to indicate that the number cannot be reused.
-                               v[cell.getNumber()-1] = 0;
-                       }
-               }
-
+	public void removeCandidates(int[] v) {
+		for (CardCell cell : blockCells) {
+			if (cell.getStatus() == CellStatus.GIVEN || cell.getStatus() == CellStatus.CORRECT_GUESS) {
+				// Set index to zero to indicate that the number cannot be reused.
+				v[cell.getNumber() - 1] = 0;
+			}
+		}
 	}
 
 	/**
 	 * Applies highlight styling to all cells in the block.
 	 */
-	public void highlightBlock(){
-               for (CardCell cell : blockCells) {
-                       cell.setHighlightCell();
-               }
+	public void highlightBlock() {
+		blockCells.forEach(CardCell::setHighlightCell);
 	}
-
 
 	/**
 	 * Adds a new cell to the list of cells that belong to this block.
@@ -88,9 +73,6 @@ public class Block {
 	 * @param cardCell the cell to register
 	 */
 	public void addCell(CardCell cardCell) {
-               blockCells.add(cardCell);
-
+		blockCells.add(cardCell);
 	}
-
-
 }
