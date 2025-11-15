@@ -11,8 +11,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -20,13 +18,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
 import org.ln.sudokuplus.controller.SudokuController;
 import org.ln.sudokuplus.model.GameLevel;
 import org.ln.sudokuplus.model.SudokuConstants;
+
+import com.formdev.flatlaf.FlatLightLaf;
 
 
 
@@ -37,7 +35,7 @@ import org.ln.sudokuplus.model.SudokuConstants;
 @SuppressWarnings("serial")
 public class SudokuView extends JFrame {
 
-	private static final Logger LOGGER = Logger.getLogger(SudokuView.class.getName());
+	//private static final Logger LOGGER = Logger.getLogger(SudokuView.class.getName());
 
 	// private variables
 	private GameBoard board = new GameBoard();
@@ -66,7 +64,6 @@ public class SudokuView extends JFrame {
 		initNumberPanel();
 
 		btnNote.setEnabled(false);
-
 		btnAdvNote.setEnabled(false);
 
 		timer = new Timer(SudokuConstants.TIMER_DELAY_MILLIS, e -> {
@@ -129,10 +126,10 @@ public class SudokuView extends JFrame {
 		btnAdvNote.addActionListener(e -> board.setAdvancedNote());
 
 		btnNewGame.addActionListener(
-				e -> controller.newGame((GameLevel) comboLevel.getSelectedItem()));
+				e -> this.controller.newGame((GameLevel) comboLevel.getSelectedItem()));
 
 		for (JButton number : numbers) {
-			number.addActionListener(controller.new ButtonNumberListener(controller));
+			number.addActionListener(this.controller.new ButtonNumberListener(this.controller));
 		}
 	}
 
@@ -198,23 +195,23 @@ public class SudokuView extends JFrame {
 	 * Entry point that configures the look and feel before showing the view.
 	 */
 	public static void main(String args[]) {
-
-		try {
-			for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-				if ("Nimbus".equals(info.getName())) {
-					UIManager.setLookAndFeel(info.getClassName());
-					break;
-				}
-			}
-		} catch (ClassNotFoundException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
-		} catch (InstantiationException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
-		} catch (IllegalAccessException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
-		} catch (UnsupportedLookAndFeelException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
-		}
+		FlatLightLaf.setup();
+//		try {
+//			for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+//				if ("Nimbus".equals(info.getName())) {
+//					UIManager.setLookAndFeel(info.getClassName());
+//					break;
+//				}
+//			}
+//		} catch (ClassNotFoundException ex) {
+//			LOGGER.log(Level.SEVERE, null, ex);
+//		} catch (InstantiationException ex) {
+//			LOGGER.log(Level.SEVERE, null, ex);
+//		} catch (IllegalAccessException ex) {
+//			LOGGER.log(Level.SEVERE, null, ex);
+//		} catch (UnsupportedLookAndFeelException ex) {
+//			LOGGER.log(Level.SEVERE, null, ex);
+//		}
 
 		/* Create and display the form */
 		EventQueue.invokeLater(() -> {
