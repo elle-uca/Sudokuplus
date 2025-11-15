@@ -22,8 +22,8 @@ import org.ln.sudokuplus.view.cell.CardCell;
  */
 public class SudokuController {
 
-	private SudokuView view;
-	private boolean modeNote = false;
+       private final SudokuView view;
+       private boolean modeNote = false;
 
 
 
@@ -135,19 +135,20 @@ public class SudokuController {
 	public void checkDisableButton(int n) {
 		CardCell[][] cells = view.getBoard().getCardCells();
 		int count = 0;
-		for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
-			for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
-				if((cells[row][col].getStatus() == CellStatus.GIVEN ||
-						cells[row][col].getStatus() == CellStatus.CORRECT_GUESS) &&
-						cells[row][col].getNumber() == n) {
-					count++;
-				}
-			}
-		}
-		if(count == SudokuConstants.GRID_SIZE) {
-			view.enableButtonsNumber(n-1, false);
-		}
-	}
+               for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
+                       for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
+                               CardCell cell = cells[row][col];
+                               CellStatus status = cell.getStatus();
+                               if ((status == CellStatus.GIVEN || status == CellStatus.CORRECT_GUESS)
+                                               && cell.getNumber() == n) {
+                                       count++;
+                               }
+                       }
+               }
+               if (count == SudokuConstants.GRID_SIZE) {
+                       view.enableButtonsNumber(n - 1, false);
+               }
+        }
 
 
 	/**
@@ -185,7 +186,7 @@ public class SudokuController {
 	 */
 	public class ButtonNumberListener implements ActionListener {
 
-		private SudokuController controller;
+               private final SudokuController controller;
 
 		/**
 		 * Creates a listener that delegates button actions to the provided controller.
@@ -200,23 +201,27 @@ public class SudokuController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			CardCell cc = controller.getView().getBoard().getSelected();
-			if(cc == null)
-				return;
+                       CardCell cc = controller.getView().getBoard().getSelected();
+                       if (cc == null) {
+                               return;
+                       }
 
-			// Depending on the current mode, store a note or a definitive value.
-			if(controller.isModeNote()) {
-				cc.setMode(CellMode.NOTEPANEL);
-				cc.getNoteCell().setNoteText(e.getActionCommand(), Integer.parseInt(e.getActionCommand())-1);
-			}else {
-				cc.setMode(CellMode.CELLPANEL);
-				cc.setNumber(e.getActionCommand());
+                       String command = e.getActionCommand();
+                       int number = Integer.parseInt(command);
 
-				controller.checkDisableButton(Integer.parseInt(e.getActionCommand()));
-				controller.getView().getBoard().checkCancellNote(cc);
-				controller.checkSolved();
-			}
-		}
-	}
+                       // Depending on the current mode, store a note or a definitive value.
+                       if (controller.isModeNote()) {
+                               cc.setMode(CellMode.NOTEPANEL);
+                               cc.getNoteCell().setNoteText(command, number - 1);
+                       } else {
+                               cc.setMode(CellMode.CELLPANEL);
+                               cc.setNumber(command);
+
+                               controller.checkDisableButton(number);
+                               controller.getView().getBoard().checkCancellNote(cc);
+                               controller.checkSolved();
+                       }
+                }
+        }
 
 }
