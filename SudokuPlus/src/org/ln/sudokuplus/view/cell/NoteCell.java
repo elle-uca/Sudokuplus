@@ -14,7 +14,7 @@ import org.ln.sudokuplus.model.SudokuConstants.CellMode;
 @SuppressWarnings("serial")
 public class NoteCell extends AbstractCell {
 
-        JLabel[] fields = new JLabel[SudokuConstants.GRID_SIZE];
+        private final JLabel[] fields = new JLabel[SudokuConstants.GRID_SIZE];
 
         /**
          * Creates the grid of candidate labels for the provided location.
@@ -26,23 +26,23 @@ public class NoteCell extends AbstractCell {
                 super(row, col);
                 this.setLayout(new GridLayout(SudokuConstants.SUBGRID_SIZE, SudokuConstants.SUBGRID_SIZE));
 
-                for (int i = 1; i <= SudokuConstants.GRID_SIZE; i++) {
+                for (int i = 0; i < SudokuConstants.GRID_SIZE; i++) {
                         JLabel note = new JLabel();
                         note.setText("");
                         note.setHorizontalAlignment(SwingConstants.CENTER);
-			fields[i-1] = note;
-			fields[i-1].setForeground(SudokuConstants.FG_NOTE);
-			add(note);
-		}
-	}
+                        fields[i] = note;
+                        fields[i].setForeground(SudokuConstants.FG_NOTE);
+                        add(note);
+                }
+        }
 
         /**
          * Clears all candidate labels displayed in this note cell.
          */
         @Override
         void reset() {
-                for (int i = 0; i < fields.length; i++) {
-                        fields[i].setText("");
+                for (JLabel field : fields) {
+                        field.setText("");
                 }
         }
 
@@ -53,8 +53,8 @@ public class NoteCell extends AbstractCell {
          * @param i zero-based index for the candidate slot
          */
         public void setNoteText(String s, int i) {
-                String res = fields[i].getText().compareTo("") == 0 ? s : "";
-                fields[i].setText(res);
+                String result = fields[i].getText().isEmpty() ? s : "";
+                fields[i].setText(result);
         }
 
 
@@ -78,12 +78,13 @@ public class NoteCell extends AbstractCell {
          * @param num candidate value to clear
          */
         public void removeNote(int num) {
-                for (int i = 0; i < fields.length; i++) {
-                        if(fields[i].getText().equals(Integer.toString(num))) {
-                                fields[i].setText("");
-			}
-		}
-		
-	}
+                String target = Integer.toString(num);
+                for (JLabel field : fields) {
+                        if (target.equals(field.getText())) {
+                                field.setText("");
+                        }
+                }
+
+        }
 
 }
