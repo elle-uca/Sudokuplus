@@ -199,7 +199,7 @@ public class CardCell extends JPanel {
 				setStatus(CellStatus.CORRECT_GUESS);
 			}
 		}
-		default -> throw new IllegalArgumentException("Unexpected value: " + status);
+		default -> {}
 
 		}
 	}
