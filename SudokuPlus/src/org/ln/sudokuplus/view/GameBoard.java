@@ -39,7 +39,7 @@ public class GameBoard extends JPanel {
 		setBorder(new MatteBorder(2, 2, 2, 2, Color.gray));
 		setPreferredSize(new Dimension(SudokuConstants.BOARD_WIDTH, 
 				SudokuConstants.BOARD_HEIGHT));
-		
+
 		// Allocate the 2D array of Blocks (3x3)
 		for (int y = 0; y < SudokuConstants.SUBGRID_SIZE; y++) {
 			for (int x = 0; x < SudokuConstants.SUBGRID_SIZE; x++) {
@@ -70,49 +70,49 @@ public class GameBoard extends JPanel {
 	 */
 	public void highlightRelatedCell(CardCell c) {
 		// Reset every cell to its default appearance before applying highlights.
-                for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
-                        for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
-                                cells[row][col].paint();
-                                cells[row][col].setFontCell(SudokuConstants.FONT_NUMBERS);
-                        }
-                }
+		for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
+			for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
+				cells[row][col].paint();
+				cells[row][col].setFontCell(SudokuConstants.FONT_NUMBERS);
+			}
+		}
 
 		/** highlight rows */
 		for (int i = 0; i < cells.length; i++) {
 			cells[c.getRow()][i].setHighlightCell();
 		}
-		
+
 		/** highlight cols */
 		for (CardCell[] cell : cells) {
 			cell[c.getCol()].setHighlightCell();
 		}
-		
+
 		/** highlight blocks */
-                for (int y = 0; y < SudokuConstants.SUBGRID_SIZE; y++) {
-                        for (int x = 0; x < SudokuConstants.SUBGRID_SIZE; x++) {
+		for (int y = 0; y < SudokuConstants.SUBGRID_SIZE; y++) {
+			for (int x = 0; x < SudokuConstants.SUBGRID_SIZE; x++) {
 				if(blocks[y][x].contain(c)) {
 					blocks[y][x].highlightBlock();
 				}
 			}
 		}
-		
-		/** highlight equal number */
-                if(c.getStatus() == CellStatus.GIVEN || c.getStatus() == CellStatus.CORRECT_GUESS) {
 
-                        for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
-                                for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
-                                        if(cells[row][col].getNumber() == c.getNumber()
-                                                        && (cells[row][col].getStatus() == CellStatus.GIVEN
-                                                                        || cells[row][col].getStatus() == CellStatus.CORRECT_GUESS)) {
-                                                cells[row][col].setBold();
-                                        }
-                                }
-                        }
-                }
+		/** highlight equal number */
+		if(c.getStatus() == CellStatus.GIVEN || c.getStatus() == CellStatus.CORRECT_GUESS) {
+
+			for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
+				for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
+					if(cells[row][col].getNumber() == c.getNumber()
+							&& (cells[row][col].getStatus() == CellStatus.GIVEN
+							|| cells[row][col].getStatus() == CellStatus.CORRECT_GUESS)) {
+						cells[row][col].setBold();
+					}
+				}
+			}
+		}
 		c.setSelectedCell();
 	}
 
-	
+
 	/**
 	 * Resets cell appearance before showing solved-state emphasis.
 	 */
@@ -123,15 +123,15 @@ public class GameBoard extends JPanel {
 				cells[row][col].setFontCell(SudokuConstants.FONT_NUMBERS);
 			}
 		}
-		
+
 		//highlightRow(Color.black);
 		//waiting();
 		//highlightRow(Color.white);
 		/** highlight rows */
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Applies a background colour to the first row. Used mainly for visual feedback tests.
 	 *
@@ -143,12 +143,12 @@ public class GameBoard extends JPanel {
 		}
 
 	}
-	
-	
-	
-	
+
+
+
+
 	void waiting() {
-		 try {
+		try {
 			TimeUnit.SECONDS.sleep(1);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -156,8 +156,8 @@ public class GameBoard extends JPanel {
 		}
 
 	}
-	
-	
+
+
 	/**
 	 * Calculates and assigns pencil marks for each editable cell.
 	 */
@@ -170,20 +170,20 @@ public class GameBoard extends JPanel {
 			}
 		}
 	}
-	
-	
+
+
 	/**
 	 * Computes candidate numbers for the given cell by excluding conflicting values.
 	 *
 	 * @param cell the cell whose pencil marks should be updated
 	 */
-        public void searchCandidates(CardCell cell) {
-                int[] candidates = new int[SudokuConstants.GRID_SIZE];
-		
+	public void searchCandidates(CardCell cell) {
+		int[] candidates = new int[SudokuConstants.GRID_SIZE];
+
 		for (int x = 0; x < candidates.length; x++) {
 			candidates[x] = x+1;
 		}
-		
+
 		CardCell c;
 		for (int i = 0; i < cells.length; i++) {
 			// Remove numbers already confirmed in the same row.
@@ -200,9 +200,9 @@ public class GameBoard extends JPanel {
 				candidates[c.getNumber()-1] = 0;
 			}
 		}
-		
-                for (int y = 0; y < SudokuConstants.SUBGRID_SIZE; y++) {
-                        for (int x = 0; x < SudokuConstants.SUBGRID_SIZE; x++) {
+
+		for (int y = 0; y < SudokuConstants.SUBGRID_SIZE; y++) {
+			for (int x = 0; x < SudokuConstants.SUBGRID_SIZE; x++) {
 				if(blocks[y][x].contain(cell)) {
 					blocks[y][x].removeCandidates(candidates);
 				}
@@ -235,8 +235,8 @@ public class GameBoard extends JPanel {
 				}
 			}
 
-                        for (int y = 0; y < SudokuConstants.SUBGRID_SIZE; y++) {
-                                for (int x = 0; x < SudokuConstants.SUBGRID_SIZE; x++) {
+			for (int y = 0; y < SudokuConstants.SUBGRID_SIZE; y++) {
+				for (int x = 0; x < SudokuConstants.SUBGRID_SIZE; x++) {
 					if(blocks[y][x].contain(cell)) {
 						blocks[y][x].removeNote(cell.getNumber());
 					}
@@ -287,10 +287,10 @@ public class GameBoard extends JPanel {
 
 		@Override
 		public void focusLost(FocusEvent e) {
-                        AbstractCell pc = (AbstractCell) e.getSource();
-                        pc.setBackground(SudokuConstants.BG_FOCUS_LOST);
-                }
-        }
+			AbstractCell pc = (AbstractCell) e.getSource();
+			pc.setBackground(SudokuConstants.BG_FOCUS_LOST);
+		}
+	}
 
 
 
