@@ -3,6 +3,7 @@ package org.ln.sudokuplus.view.cell;
 import java.awt.Color;
 
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
@@ -10,12 +11,11 @@ import javax.swing.border.MatteBorder;
  * Base class for every visual Sudoku cell that holds shared coordinates and borders.
  */
 @SuppressWarnings("serial")
-public abstract class AbstractCell extends JPanel{
-	
+public abstract class AbstractCell extends JPanel {
 
-	protected int row;
-	protected int col;
-	CardCell cardCell;
+        protected int row;
+        protected int col;
+        CardCell cardCell;
 
         /**
          * Creates a cell positioned at the provided row and column.
@@ -27,32 +27,22 @@ public abstract class AbstractCell extends JPanel{
                 super();
                 this.row = row;
                 this.col = col;
-                this.setBorder(new LineBorder(Color.gray));
+                Border border = new LineBorder(Color.GRAY);
                 // Add thicker borders to delineate 3x3 sub-grids within the board.
-                if(col == 2 || col == 5) {
-                        this.setBorder( new MatteBorder(1, 1, 1, 4, Color.gray));
+                if ((col == 2 || col == 5) && (row == 2 || row == 5)) {
+                        border = new MatteBorder(1, 1, 4, 4, Color.GRAY);
+                } else if (col == 2 || col == 5) {
+                        border = new MatteBorder(1, 1, 1, 4, Color.GRAY);
+                } else if (row == 2 || row == 5) {
+                        border = new MatteBorder(1, 1, 4, 1, Color.GRAY);
                 }
-		if(row == 2 || row == 5) {
-			this.setBorder( new MatteBorder(1, 1, 4, 1, Color.gray));
-		}
-		if(row == 2 && col == 2) {
-			this.setBorder( new MatteBorder(1, 1, 4, 4, Color.gray));
-		}
-		if(row == 2 && col == 5) {
-			this.setBorder( new MatteBorder(1, 1, 4, 4, Color.gray));
-		}
-		if(row == 5 && col == 5) {
-			this.setBorder( new MatteBorder(1, 1, 4, 4, Color.gray));
-		}
-		if(row == 5 && col == 2) {
-			this.setBorder( new MatteBorder(1, 1, 4, 4, Color.gray));
-		}
+                setBorder(border);
 	}
 	
         /**
          * Clears any user-facing state rendered by the cell implementation.
          */
-        abstract void reset() ;
+        abstract void reset();
 
         /**
          * Returns the zero-based row index represented by this cell.
