@@ -8,9 +8,9 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
+import org.ln.sudokuplus.enums.CellMode;
+import org.ln.sudokuplus.enums.CellStatus;
 import org.ln.sudokuplus.model.SudokuConstants;
-import org.ln.sudokuplus.model.SudokuConstants.CellMode;
-import org.ln.sudokuplus.model.SudokuConstants.CellStatus;
 
 /**
  * Composite panel containing both the main Sudoku cell and its note-taking panel.

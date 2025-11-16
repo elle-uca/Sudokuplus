@@ -3,9 +3,9 @@ package org.ln.sudokuplus.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.ln.sudokuplus.enums.CellMode;
+import org.ln.sudokuplus.enums.CellStatus;
 import org.ln.sudokuplus.model.SudokuConstants;
-import org.ln.sudokuplus.model.SudokuConstants.CellMode;
-import org.ln.sudokuplus.model.SudokuConstants.CellStatus;
 import org.ln.sudokuplus.view.cell.CardCell;
 
 /**

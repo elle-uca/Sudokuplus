@@ -4,8 +4,8 @@ import java.awt.Dimension;
 
 import javax.swing.JLabel;
 
+import org.ln.sudokuplus.enums.CellStatus;
 import org.ln.sudokuplus.model.SudokuConstants;
-import org.ln.sudokuplus.model.SudokuConstants.CellStatus;
 
 /**
  * Visual component representing the primary Sudoku value inside the grid.

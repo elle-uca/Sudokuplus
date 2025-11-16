@@ -5,8 +5,8 @@ import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import org.ln.sudokuplus.enums.CellMode;
 import org.ln.sudokuplus.model.SudokuConstants;
-import org.ln.sudokuplus.model.SudokuConstants.CellMode;
 
 /**
  * Visual component showing small candidate notes for a Sudoku cell.

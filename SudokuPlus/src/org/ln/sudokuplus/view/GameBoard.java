@@ -12,9 +12,9 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
 
+import org.ln.sudokuplus.enums.CellMode;
+import org.ln.sudokuplus.enums.CellStatus;
 import org.ln.sudokuplus.model.SudokuConstants;
-import org.ln.sudokuplus.model.SudokuConstants.CellMode;
-import org.ln.sudokuplus.model.SudokuConstants.CellStatus;
 import org.ln.sudokuplus.view.cell.AbstractCell;
 import org.ln.sudokuplus.view.cell.CardCell;
 

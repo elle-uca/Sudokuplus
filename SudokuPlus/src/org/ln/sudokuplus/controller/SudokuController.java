@@ -9,11 +9,11 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.ln.sudokuplus.enums.CellMode;
+import org.ln.sudokuplus.enums.CellStatus;
 import org.ln.sudokuplus.model.GameLevel;
 import org.ln.sudokuplus.model.RathiTrisalGenerator;
 import org.ln.sudokuplus.model.SudokuConstants;
-import org.ln.sudokuplus.model.SudokuConstants.CellMode;
-import org.ln.sudokuplus.model.SudokuConstants.CellStatus;
 import org.ln.sudokuplus.view.SudokuView;
 import org.ln.sudokuplus.view.cell.CardCell;
 
