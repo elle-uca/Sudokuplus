@@ -21,6 +21,7 @@ import javax.swing.Timer;
 import javax.swing.WindowConstants;
 
 import org.ln.sudokuplus.controller.SudokuController;
+import org.ln.sudokuplus.enums.Theme;
 import org.ln.sudokuplus.model.GameLevel;
 import org.ln.sudokuplus.model.SudokuConstants;
 
@@ -196,28 +197,13 @@ public class SudokuView extends JFrame {
 	 */
 	public static void main(String args[]) {
 		FlatLightLaf.setup();
-//		try {
-//			for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-//				if ("Nimbus".equals(info.getName())) {
-//					UIManager.setLookAndFeel(info.getClassName());
-//					break;
-//				}
-//			}
-//		} catch (ClassNotFoundException ex) {
-//			LOGGER.log(Level.SEVERE, null, ex);
-//		} catch (InstantiationException ex) {
-//			LOGGER.log(Level.SEVERE, null, ex);
-//		} catch (IllegalAccessException ex) {
-//			LOGGER.log(Level.SEVERE, null, ex);
-//		} catch (UnsupportedLookAndFeelException ex) {
-//			LOGGER.log(Level.SEVERE, null, ex);
-//		}
 
 		/* Create and display the form */
 		EventQueue.invokeLater(() -> {
 			SudokuView view = new SudokuView();
 			SudokuController controller = new SudokuController(view);
 			view.setController(controller);
+			ThemeSupport.setTheme(Theme.CLASSIC);
 			view.setVisible(true);
 		});
 	}

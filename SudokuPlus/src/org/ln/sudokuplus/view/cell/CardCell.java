@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import org.ln.sudokuplus.enums.CellMode;
 import org.ln.sudokuplus.enums.CellStatus;
 import org.ln.sudokuplus.model.SudokuConstants;
+import org.ln.sudokuplus.view.ThemeSupport;
 
 /**
  * Composite panel containing both the main Sudoku cell and its note-taking panel.
@@ -83,14 +84,14 @@ public class CardCell extends JPanel {
 	 * Highlights the cell background to indicate a related cell.
 	 */
 	public void setHighlightCell(){
-		setBackgroundCell(SudokuConstants.BG_HIGH_CELL);
+		setBackgroundCell(ThemeSupport.BG_HIGH_CELL);
 	}
 
 	/**
 	 * Highlights the cell background to indicate direct selection.
 	 */
 	public void setSelectedCell(){
-		setBackgroundCell(SudokuConstants.BG_HIGH_NUMBER);
+		setBackgroundCell(ThemeSupport.BG_HIGH_NUMBER);
 	}
 
 	/**
@@ -213,21 +214,21 @@ public class CardCell extends JPanel {
 		switch (status) {
 		case GIVEN -> {
 			sudokuCell.setText(sudokuCell.getNumber() + "");
-			sudokuCell.setBackground(SudokuConstants.BG_GIVEN);
-			sudokuCell.getLabel().setForeground(SudokuConstants.FG_GIVEN);
+			sudokuCell.setBackground(ThemeSupport.BG_GIVEN);
+			sudokuCell.getLabel().setForeground(ThemeSupport.FG_GIVEN);
 		}
 		case TO_GUESS -> {
 			sudokuCell.setText("");
-			sudokuCell.setBackground(SudokuConstants.BG_TO_GUESS);
-			sudokuCell.getLabel().setForeground(SudokuConstants.FG_NOT_GIVEN);
+			sudokuCell.setBackground(ThemeSupport.BG_TO_GUESS);
+			sudokuCell.getLabel().setForeground(ThemeSupport.FG_NOT_GIVEN);
 		}
 		case CORRECT_GUESS -> {
-			sudokuCell.getLabel().setForeground(SudokuConstants.FG_CORRECT_GUESS);
-			sudokuCell.setBackground(SudokuConstants.BG_CORRECT_GUESS);
+			sudokuCell.getLabel().setForeground(ThemeSupport.FG_CORRECT_GUESS);
+			sudokuCell.setBackground(ThemeSupport.BG_CORRECT_GUESS);
 		}
 		case WRONG_GUESS -> {
-			sudokuCell.getLabel().setForeground(SudokuConstants.FG_WRONG_GUESS);
-			sudokuCell.setBackground(SudokuConstants.BG_WRONG_GUESS);
+			sudokuCell.getLabel().setForeground(ThemeSupport.FG_WRONG_GUESS);
+			sudokuCell.setBackground(ThemeSupport.BG_WRONG_GUESS);
 		}
 		
 		}

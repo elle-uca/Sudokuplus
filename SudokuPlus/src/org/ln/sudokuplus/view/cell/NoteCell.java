@@ -7,6 +7,7 @@ import javax.swing.SwingConstants;
 
 import org.ln.sudokuplus.enums.CellMode;
 import org.ln.sudokuplus.model.SudokuConstants;
+import org.ln.sudokuplus.view.ThemeSupport;
 
 /**
  * Visual component showing small candidate notes for a Sudoku cell.
@@ -31,7 +32,7 @@ public class NoteCell extends AbstractCell {
                         note.setText("");
                         note.setHorizontalAlignment(SwingConstants.CENTER);
                         fields[i] = note;
-                        fields[i].setForeground(SudokuConstants.FG_NOTE);
+                        fields[i].setForeground(ThemeSupport.FG_NOTE);
                         add(note);
                 }
         }

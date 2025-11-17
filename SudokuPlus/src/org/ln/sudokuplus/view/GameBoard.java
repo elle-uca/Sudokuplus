@@ -288,7 +288,7 @@ public class GameBoard extends JPanel {
 		@Override
 		public void focusLost(FocusEvent e) {
 			AbstractCell pc = (AbstractCell) e.getSource();
-			pc.setBackground(SudokuConstants.BG_FOCUS_LOST);
+			pc.setBackground(ThemeSupport.BG_FOCUS_LOST);
 		}
 	}
 
