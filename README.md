@@ -52,5 +52,5 @@ Whether you’re a casual player or a Sudoku enthusiast, NOOSudoku offers both f
 
 ### Clone the repository
 ```bash
-git clone https://github.com/elle-uca/Sudokuplus.git
-cd Sudokuplus
+git clone https://github.com/elle-uca/NooSudoku.git
+cd NooSudoku
