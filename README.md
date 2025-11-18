@@ -4,7 +4,7 @@
 
 *A modern Sudoku game and solver with smart logic, elegant UI, and enhanced gameplay.*
 
-![NooSudoku Banner](NooSudoku/blob/main/docs/noos-logo.png) 
+![NooSudoku Banner](/main/docs/noos-logo.png) 
 
 
 [![Java](https://img.shields.io/badge/Java-8%2B-blue.svg)](https://www.java.com/)
