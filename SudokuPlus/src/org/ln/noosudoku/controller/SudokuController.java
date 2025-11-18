@@ -19,6 +19,8 @@ import org.ln.noosudoku.view.cell.CardCell;
 
 /**
  * Coordinates user interactions with the Sudoku view and underlying game state.
+ * 
+ * Author: Luca Noale
  */
 public class SudokuController {
 
