@@ -1,4 +1,4 @@
-package org.ln.sudokuplus.view.cell;
+package org.ln.noosudoku.view.cell;
 
 import java.awt.Color;
 

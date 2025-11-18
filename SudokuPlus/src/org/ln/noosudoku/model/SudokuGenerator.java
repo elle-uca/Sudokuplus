@@ -1,4 +1,4 @@
-package org.ln.sudokuplus.model;
+package org.ln.noosudoku.model;
 
 /**
  * Abstraction for components capable of producing Sudoku puzzle grids.

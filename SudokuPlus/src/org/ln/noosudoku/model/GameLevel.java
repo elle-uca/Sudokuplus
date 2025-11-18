@@ -1,4 +1,4 @@
-package org.ln.sudokuplus.model;
+package org.ln.noosudoku.model;
 
 /**
  * Enumeration defining the available difficulty levels and their metadata.

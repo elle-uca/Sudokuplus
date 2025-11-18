@@ -1,9 +1,9 @@
-package org.ln.sudokuplus.view;
+package org.ln.noosudoku.view;
 
 import java.awt.Color;
 import java.util.Objects;
 
-import org.ln.sudokuplus.enums.Theme;
+import org.ln.noosudoku.enums.Theme;
 
 public class ThemeSupport {
 	

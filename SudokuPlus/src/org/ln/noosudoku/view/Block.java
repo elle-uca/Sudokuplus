@@ -1,12 +1,12 @@
-package org.ln.sudokuplus.view;
+package org.ln.noosudoku.view;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ln.sudokuplus.enums.CellMode;
-import org.ln.sudokuplus.enums.CellStatus;
-import org.ln.sudokuplus.model.SudokuConstants;
-import org.ln.sudokuplus.view.cell.CardCell;
+import org.ln.noosudoku.enums.CellMode;
+import org.ln.noosudoku.enums.CellStatus;
+import org.ln.noosudoku.model.SudokuConstants;
+import org.ln.noosudoku.view.cell.CardCell;
 
 /**
  * Represents a 3x3 sub-grid and manages the cells that belong to it.

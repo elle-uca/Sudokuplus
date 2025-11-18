@@ -1,4 +1,4 @@
-package org.ln.sudokuplus.enums;
+package org.ln.noosudoku.enums;
 
 
 /**

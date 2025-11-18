@@ -1,4 +1,4 @@
-package org.ln.sudokuplus.view;
+package org.ln.noosudoku.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -17,9 +17,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import org.ln.sudokuplus.model.SudokuConstants;
-import org.ln.sudokuplus.view.cell.AbstractCell;
-import org.ln.sudokuplus.view.cell.CardCell;
+import org.ln.noosudoku.model.SudokuConstants;
+import org.ln.noosudoku.view.cell.AbstractCell;
+import org.ln.noosudoku.view.cell.CardCell;
 /**
  * Simple harness used to manually test cell focus and number input interactions.
  */

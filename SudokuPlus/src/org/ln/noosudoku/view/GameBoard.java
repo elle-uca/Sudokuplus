@@ -1,4 +1,4 @@
-package org.ln.sudokuplus.view;
+package org.ln.noosudoku.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,11 +12,11 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
 
-import org.ln.sudokuplus.enums.CellMode;
-import org.ln.sudokuplus.enums.CellStatus;
-import org.ln.sudokuplus.model.SudokuConstants;
-import org.ln.sudokuplus.view.cell.AbstractCell;
-import org.ln.sudokuplus.view.cell.CardCell;
+import org.ln.noosudoku.enums.CellMode;
+import org.ln.noosudoku.enums.CellStatus;
+import org.ln.noosudoku.model.SudokuConstants;
+import org.ln.noosudoku.view.cell.AbstractCell;
+import org.ln.noosudoku.view.cell.CardCell;
 
 /**
  * Swing panel responsible for rendering and managing the Sudoku grid cells.

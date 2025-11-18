@@ -1,4 +1,4 @@
-package org.ln.sudokuplus.controller;
+package org.ln.noosudoku.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,13 +9,13 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import org.ln.sudokuplus.enums.CellMode;
-import org.ln.sudokuplus.enums.CellStatus;
-import org.ln.sudokuplus.model.GameLevel;
-import org.ln.sudokuplus.model.RathiTrisalGenerator;
-import org.ln.sudokuplus.model.SudokuConstants;
-import org.ln.sudokuplus.view.SudokuView;
-import org.ln.sudokuplus.view.cell.CardCell;
+import org.ln.noosudoku.enums.CellMode;
+import org.ln.noosudoku.enums.CellStatus;
+import org.ln.noosudoku.model.GameLevel;
+import org.ln.noosudoku.model.RathiTrisalGenerator;
+import org.ln.noosudoku.model.SudokuConstants;
+import org.ln.noosudoku.view.SudokuView;
+import org.ln.noosudoku.view.cell.CardCell;
 
 /**
  * Coordinates user interactions with the Sudoku view and underlying game state.

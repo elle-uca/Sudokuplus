@@ -1,11 +1,11 @@
-package org.ln.sudokuplus.view.cell;
+package org.ln.noosudoku.view.cell;
 
 import java.awt.Dimension;
 
 import javax.swing.JLabel;
 
-import org.ln.sudokuplus.enums.CellStatus;
-import org.ln.sudokuplus.model.SudokuConstants;
+import org.ln.noosudoku.enums.CellStatus;
+import org.ln.noosudoku.model.SudokuConstants;
 
 /**
  * Visual component representing the primary Sudoku value inside the grid.

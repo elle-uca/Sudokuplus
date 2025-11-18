@@ -1,4 +1,4 @@
-package org.ln.sudokuplus.view;
+package org.ln.noosudoku.view;
 
 
 
@@ -20,10 +20,10 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.WindowConstants;
 
-import org.ln.sudokuplus.controller.SudokuController;
-import org.ln.sudokuplus.enums.Theme;
-import org.ln.sudokuplus.model.GameLevel;
-import org.ln.sudokuplus.model.SudokuConstants;
+import org.ln.noosudoku.controller.SudokuController;
+import org.ln.noosudoku.enums.Theme;
+import org.ln.noosudoku.model.GameLevel;
+import org.ln.noosudoku.model.SudokuConstants;
 
 import com.formdev.flatlaf.FlatLightLaf;
 

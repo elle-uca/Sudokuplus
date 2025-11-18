@@ -1,4 +1,4 @@
-package org.ln.sudokuplus.model;
+package org.ln.noosudoku.model;
 
 import java.awt.Font;
 

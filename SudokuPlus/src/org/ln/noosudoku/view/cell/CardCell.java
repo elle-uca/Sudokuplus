@@ -1,4 +1,4 @@
-package org.ln.sudokuplus.view.cell;
+package org.ln.noosudoku.view.cell;
 
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -8,10 +8,10 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
-import org.ln.sudokuplus.enums.CellMode;
-import org.ln.sudokuplus.enums.CellStatus;
-import org.ln.sudokuplus.model.SudokuConstants;
-import org.ln.sudokuplus.view.ThemeSupport;
+import org.ln.noosudoku.enums.CellMode;
+import org.ln.noosudoku.enums.CellStatus;
+import org.ln.noosudoku.model.SudokuConstants;
+import org.ln.noosudoku.view.ThemeSupport;
 
 /**
  * Composite panel containing both the main Sudoku cell and its note-taking panel.

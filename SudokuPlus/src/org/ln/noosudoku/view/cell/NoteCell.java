@@ -1,13 +1,13 @@
-package org.ln.sudokuplus.view.cell;
+package org.ln.noosudoku.view.cell;
 
 import java.awt.GridLayout;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-import org.ln.sudokuplus.enums.CellMode;
-import org.ln.sudokuplus.model.SudokuConstants;
-import org.ln.sudokuplus.view.ThemeSupport;
+import org.ln.noosudoku.enums.CellMode;
+import org.ln.noosudoku.model.SudokuConstants;
+import org.ln.noosudoku.view.ThemeSupport;
 
 /**
  * Visual component showing small candidate notes for a Sudoku cell.

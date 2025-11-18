@@ -1,4 +1,4 @@
-package org.ln.sudokuplus.model;
+package org.ln.noosudoku.model;
 
 /**
  * Generator implementation based on the Rathi/Trisal algorithm for producing Sudoku puzzles.
