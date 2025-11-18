@@ -4,8 +4,8 @@
 
 *A modern Sudoku game and solver with smart logic, elegant UI, and enhanced gameplay.*
 
-![Sudokuplus Banner](docs/banner.png)  
-*(Replace with your own screenshot or logo — e.g. `/docs/sudokuplus_ui.png`)*  
+![NooSudoku Banner](docs/noos-logo.png)  
+
 
 [![Java](https://img.shields.io/badge/Java-8%2B-blue.svg)](https://www.java.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
