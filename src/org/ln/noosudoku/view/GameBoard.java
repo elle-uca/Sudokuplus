@@ -296,9 +296,23 @@ public class GameBoard extends JPanel {
 	 *
 	 * @return the grid of card cells composing the board
 	 */
-	public CardCell[][] getCardCells() {
-		return cells;
-	}
+        public CardCell[][] getCardCells() {
+                return cells;
+        }
+
+        /**
+         * Applies the current theme to all cells and restores highlights.
+         */
+        public void refreshTheme() {
+                for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
+                        for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
+                                cells[row][col].refreshTheme();
+                        }
+                }
+                if (selected != null) {
+                        highlightRelatedCell(selected);
+                }
+        }
 
 	/**
 	 * 

@@ -38,6 +38,15 @@ public class NoteCell extends AbstractCell {
         }
 
         /**
+         * Re-applies the current theme to the note text labels.
+         */
+        public void refreshTheme() {
+                for (JLabel field : fields) {
+                        field.setForeground(ThemeSupport.FG_NOTE);
+                }
+        }
+
+        /**
          * Clears all candidate labels displayed in this note cell.
          */
         @Override
