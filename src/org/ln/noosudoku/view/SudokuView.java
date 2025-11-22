@@ -7,8 +7,7 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.EnumMap;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalTime;
@@ -16,12 +15,16 @@ import java.time.format.DateTimeFormatter;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.Timer;
 import javax.swing.WindowConstants;
 
@@ -48,13 +51,16 @@ public class SudokuView extends JFrame {
 	private JButton btnNewGame = new JButton("New Game");
 	private JButton btnNote = new JButton("Note Off");
 	private JButton btnAdvNote = new JButton("Adv Note");
-	private JLabel levelLabel = new JLabel("Level");
-	private JLabel timeLabel = new JLabel("");
-	private JComboBox<GameLevel> comboLevel;
-	private JButton[] numbers = new JButton[SudokuConstants.GRID_SIZE];
-	private JPanel numberPanel = new JPanel(new GridLayout(1, SudokuConstants.GRID_SIZE));
-	private static final int LEVEL_PANEL_HGAP = 20;
-	private static final int LEVEL_PANEL_VGAP = 5;
+        private JLabel levelLabel = new JLabel("Level");
+        private JLabel timeLabel = new JLabel("");
+        private JComboBox<GameLevel> comboLevel;
+        private JButton[] numbers = new JButton[SudokuConstants.GRID_SIZE];
+        private JPanel numberPanel = new JPanel(new GridLayout(1, SudokuConstants.GRID_SIZE));
+        private final EnumMap<GameLevel, JRadioButtonMenuItem> levelMenuItems = new EnumMap<>(GameLevel.class);
+        private final EnumMap<Theme, JRadioButtonMenuItem> themeMenuItems = new EnumMap<>(Theme.class);
+        private JCheckBoxMenuItem notesToggleMenuItem;
+        private static final int LEVEL_PANEL_HGAP = 20;
+        private static final int LEVEL_PANEL_VGAP = 5;
 
 	private SudokuController controller;
 	private Timer timer;
@@ -91,43 +97,7 @@ public class SudokuView extends JFrame {
 		levelPanel.add(btnAdvNote);
 		
 		
-		JMenuBar menuBar = new JMenuBar();
-
-        JMenu fileMenu = new JMenu("File");
-        JMenuItem addFileItem = new JMenuItem("Add file");
-       // addFileItem.addActionListener(controller.new AddFileButtonActionListener());
-        JMenuItem addDirItem = new JMenuItem("Add dir");
-       // addDirItem.addActionListener(controller.new AddDirButtonActionListener());
-        JMenuItem exitItem = new JMenuItem("Exit");
-        exitItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0); // Termina l'applicazione
-            }
-        });
-        
-        fileMenu.add(addFileItem);
-        fileMenu.add(addDirItem);
-        fileMenu.addSeparator();
-        fileMenu.add(exitItem);
-        menuBar.add(fileMenu);
-
-        JMenu settingsMenu = new JMenu("Setting");
-        JMenuItem prefItem = new JMenuItem("Preferences");
-        settingsMenu.add(prefItem);
-        menuBar.add(settingsMenu);
-
-        JMenu toolsMenu = new JMenu("Tools");
-        JMenuItem psswGen = new JMenuItem("Generatore password");
-        JMenuItem tool2 = new JMenuItem("Tool 2");
-        toolsMenu.add(psswGen);
-        toolsMenu.add(tool2);
-        menuBar.add(toolsMenu);
-
-        JMenu helpMenu = new JMenu("Help");
-        JMenuItem aboutItem = new JMenuItem("About");
-        helpMenu.add(aboutItem);
-        menuBar.add(helpMenu);
-		
+                JMenuBar menuBar = createMenuBar();
 
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(levelPanel, BorderLayout.NORTH);
@@ -142,41 +112,92 @@ public class SudokuView extends JFrame {
 	/**
 	 * Prepares the row of number buttons used for digit entry.
 	 */
-	private void initNumberPanel() {
-		for (int i = 0; i < numbers.length; i++) {
-			numbers[i] = new JButton((i + 1) + "");
-			numbers[i].setPreferredSize(new Dimension(SudokuConstants.CELL_SIZE, SudokuConstants.CELL_SIZE));
-			numbers[i].setFocusable(false);
+        private void initNumberPanel() {
+                for (int i = 0; i < numbers.length; i++) {
+                        numbers[i] = new JButton((i + 1) + "");
+                        numbers[i].setPreferredSize(new Dimension(SudokuConstants.CELL_SIZE, SudokuConstants.CELL_SIZE));
+                        numbers[i].setFocusable(false);
 			numbers[i].setEnabled(false);
 			numberPanel.add(numbers[i]);
 		}
-		numberPanel.setPreferredSize(new Dimension(SudokuConstants.BOARD_WIDTH, SudokuConstants.CELL_SIZE));
-	}
+                numberPanel.setPreferredSize(new Dimension(SudokuConstants.BOARD_WIDTH, SudokuConstants.CELL_SIZE));
+        }
+
+        private JMenuBar createMenuBar() {
+                JMenuBar menuBar = new JMenuBar();
+
+                JMenu fileMenu = new JMenu("File");
+                JMenu newGameMenu = new JMenu("Nuova partita");
+                ButtonGroup levelGroup = new ButtonGroup();
+                for (GameLevel level : GameLevel.values()) {
+                        JRadioButtonMenuItem levelItem = new JRadioButtonMenuItem(level.getTitle());
+                        levelItem.setSelected(level == comboLevel.getSelectedItem());
+                        levelItem.addActionListener(e -> startNewGame(level));
+                        levelGroup.add(levelItem);
+                        newGameMenu.add(levelItem);
+                        levelMenuItems.put(level, levelItem);
+                }
+                JMenuItem exitItem = new JMenuItem("Exit");
+                exitItem.addActionListener(e -> System.exit(0));
+                fileMenu.add(newGameMenu);
+                fileMenu.addSeparator();
+                fileMenu.add(exitItem);
+                menuBar.add(fileMenu);
+
+                JMenu viewMenu = new JMenu("View");
+                JMenu themeMenu = new JMenu("Tema");
+                ButtonGroup themeGroup = new ButtonGroup();
+                for (Theme theme : Theme.values()) {
+                        String label = theme.name().replace('_', ' ');
+                        JRadioButtonMenuItem themeItem = new JRadioButtonMenuItem(label);
+                        themeItem.setSelected(theme == ThemeSupport.getTheme());
+                        themeItem.addActionListener(e -> updateTheme(theme));
+                        themeGroup.add(themeItem);
+                        themeMenu.add(themeItem);
+                        themeMenuItems.put(theme, themeItem);
+                }
+                viewMenu.add(themeMenu);
+                menuBar.add(viewMenu);
+
+                JMenu toolsMenu = new JMenu("Tool");
+                notesToggleMenuItem = new JCheckBoxMenuItem("Attiva note");
+                notesToggleMenuItem.addActionListener(e -> toggleNotes());
+                toolsMenu.add(notesToggleMenuItem);
+                menuBar.add(toolsMenu);
+
+                JMenu helpMenu = new JMenu("Help");
+                JMenuItem preferencesItem = new JMenuItem("Preferenze...");
+                preferencesItem.addActionListener(e -> showPreferencesDialog());
+                JMenuItem aboutItem = new JMenuItem("About");
+                aboutItem.addActionListener(e -> showAboutDialog());
+                helpMenu.add(preferencesItem);
+                helpMenu.add(aboutItem);
+                menuBar.add(helpMenu);
+
+                return menuBar;
+        }
 
 	/**
 	 * Wires UI events to the provided controller instance.
 	 *
 	 * @param controller orchestrator for board interactions
 	 */
-	public void setController(SudokuController controller) {
-		this.controller = controller;
+        public void setController(SudokuController controller) {
+                this.controller = controller;
 
-		btnNote.addActionListener(e -> {
-			// Update the toggle label before notifying the controller.
-			boolean noteModeEnabled = btnNote.getText().compareTo("Note Off") == 0;
-			btnNote.setText(noteModeEnabled ? "Note On" : "Note Off");
-			controller.setModeNote(noteModeEnabled);
-		});
+                btnNote.addActionListener(e -> toggleNotes());
 
-		btnAdvNote.addActionListener(e -> board.setAdvancedNote());
+                btnAdvNote.addActionListener(e -> board.setAdvancedNote());
 
-		btnNewGame.addActionListener(
-				e -> this.controller.newGame((GameLevel) comboLevel.getSelectedItem()));
+                btnNewGame.addActionListener(
+                                e -> startNewGame((GameLevel) comboLevel.getSelectedItem()));
 
-		for (JButton number : numbers) {
-			number.addActionListener(this.controller.new ButtonNumberListener(this.controller));
-		}
-	}
+                for (JButton number : numbers) {
+                        number.addActionListener(this.controller.new ButtonNumberListener(this.controller));
+                }
+
+                updateNotesUi(controller.isModeNote());
+        }
 
 	/**
 	 * Starts the elapsed time tracking for the current puzzle.
@@ -230,27 +251,89 @@ public class SudokuView extends JFrame {
 	 *
 	 * @return the game board displayed in the window
 	 */
-	public GameBoard getBoard() {
-		return board;
-	}
+        public GameBoard getBoard() {
+                return board;
+        }
+
+        private void startNewGame(GameLevel level) {
+                if (controller == null) {
+                        return;
+                }
+                comboLevel.setSelectedItem(level);
+                selectLevelMenuItem(level);
+                controller.newGame(level);
+        }
+
+        private void selectLevelMenuItem(GameLevel level) {
+                JRadioButtonMenuItem item = levelMenuItems.get(level);
+                if (item != null) {
+                        item.setSelected(true);
+                }
+        }
+
+        private void updateTheme(Theme theme) {
+                ThemeSupport.setTheme(theme);
+                selectThemeMenuItem(theme);
+                board.refreshTheme();
+        }
+
+        private void selectThemeMenuItem(Theme theme) {
+                JRadioButtonMenuItem item = themeMenuItems.get(theme);
+                if (item != null) {
+                        item.setSelected(true);
+                }
+        }
+
+        private void toggleNotes() {
+                if (controller == null) {
+                        return;
+                }
+                boolean enabled = !controller.isModeNote();
+                controller.setModeNote(enabled);
+                updateNotesUi(enabled);
+        }
+
+        private void updateNotesUi(boolean enabled) {
+                btnNote.setText(enabled ? "Note On" : "Note Off");
+                if (notesToggleMenuItem != null) {
+                        notesToggleMenuItem.setSelected(enabled);
+                        notesToggleMenuItem.setText(enabled ? "Disattiva note" : "Attiva note");
+                }
+        }
+
+        private void showPreferencesDialog() {
+                JDialog dialog = new JDialog(this, "Preferenze", true);
+                dialog.setContentPane(new PreferencesPanel());
+                dialog.pack();
+                dialog.setLocationRelativeTo(this);
+                dialog.setVisible(true);
+        }
+
+        private void showAboutDialog() {
+                JDialog dialog = new JDialog(this, "Informazioni", true);
+                dialog.setContentPane(new AboutPanel());
+                dialog.pack();
+                dialog.setLocationRelativeTo(this);
+                dialog.setVisible(true);
+        }
 
 
 
 	/**
 	 * Entry point that configures the look and feel before showing the view.
 	 */
-	public static void main(String args[]) {
-		FlatLightLaf.setup();
+        public static void main(String args[]) {
+                FlatLightLaf.setup();
 
-		/* Create and display the form */
-		EventQueue.invokeLater(() -> {
-			SudokuView view = new SudokuView();
-			SudokuController controller = new SudokuController(view);
-			view.setController(controller);
-			ThemeSupport.setTheme(Theme.CLASSIC);
-			view.setVisible(true);
-		});
-	}
+                /* Create and display the form */
+                EventQueue.invokeLater(() -> {
+                        ThemeSupport.setTheme(Theme.CLASSIC);
+                        SudokuView view = new SudokuView();
+                        SudokuController controller = new SudokuController(view);
+                        view.setController(controller);
+                        view.setVisible(true);
+                });
+        }
 
 }
 

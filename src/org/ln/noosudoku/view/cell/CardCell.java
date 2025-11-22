@@ -209,11 +209,11 @@ public class CardCell extends JPanel {
 	/**
 	 * Updates colors and text based on the current {@link CellStatus}.
 	 */
-	public void paint() {
+        public void paint() {
 
-		switch (status) {
-		case GIVEN -> {
-			sudokuCell.setText(sudokuCell.getNumber() + "");
+                switch (status) {
+                case GIVEN -> {
+                        sudokuCell.setText(sudokuCell.getNumber() + "");
 			sudokuCell.setBackground(ThemeSupport.BG_GIVEN);
 			sudokuCell.getLabel().setForeground(ThemeSupport.FG_GIVEN);
 		}
@@ -231,8 +231,16 @@ public class CardCell extends JPanel {
 			sudokuCell.setBackground(ThemeSupport.BG_WRONG_GUESS);
 		}
 		
-		}
-	}
+                }
+        }
+
+        /**
+         * Re-applies background and text colours according to the active theme.
+         */
+        public void refreshTheme() {
+                noteCell.refreshTheme();
+                paint();
+        }
 
 	/**
 	 * Marks the cell as given and stores the fixed number.
