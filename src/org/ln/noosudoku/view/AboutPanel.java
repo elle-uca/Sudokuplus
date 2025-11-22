@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -21,6 +22,8 @@ public class AboutPanel extends JPanel {
     public AboutPanel() {
         super(new BorderLayout(10, 10));
         setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
+        
+        JLabel logoLabel = new JLabel(new ImageIcon(AboutPanel.class.getResource("/img/noos-logo.png")));
 
         JLabel title = new JLabel("NooSudoku");
         title.setFont(title.getFont().deriveFont(Font.BOLD, 18f));
@@ -38,6 +41,7 @@ public class AboutPanel extends JPanel {
 
         add(title, BorderLayout.NORTH);
         add(description, BorderLayout.CENTER);
+        add(logoLabel, BorderLayout.WEST);
     }
 }
 
