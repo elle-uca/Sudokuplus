@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JPanel;
+import javax.swing.Timer;
 import javax.swing.border.MatteBorder;
 
 import org.ln.noosudoku.enums.CellMode;
@@ -26,10 +27,13 @@ public class GameBoard extends JPanel {
 
 	private CardCell selected;
 
-	/** The game board composes of 9x9 CardCells  */
-	private CardCell[][] cells = new CardCell[SudokuConstants.GRID_SIZE][SudokuConstants.GRID_SIZE];
+        /** The game board composes of 9x9 CardCells  */
+        private CardCell[][] cells = new CardCell[SudokuConstants.GRID_SIZE][SudokuConstants.GRID_SIZE];
 
-	private Block[][] blocks = new Block[SudokuConstants.SUBGRID_SIZE][SudokuConstants.SUBGRID_SIZE];
+        private Block[][] blocks = new Block[SudokuConstants.SUBGRID_SIZE][SudokuConstants.SUBGRID_SIZE];
+
+        private Timer solveAnimationTimer;
+        private int solveAnimationStep;
 
 
 	/** Constructor */
@@ -116,19 +120,51 @@ public class GameBoard extends JPanel {
 	/**
 	 * Resets cell appearance before showing solved-state emphasis.
 	 */
-	public void highlightSolved() {
-		for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
-			for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
-				cells[row][col].paint();
-				cells[row][col].setFontCell(SudokuConstants.FONT_NUMBERS);
-			}
-		}
+        public void highlightSolved() {
+                resetSolvedState();
+                startSolveAnimation();
+        }
 
-		//highlightRow(Color.black);
-		//waiting();
-		//highlightRow(Color.white);
-		/** highlight rows */
-	}
+        private void resetSolvedState() {
+                stopSolveAnimation();
+                for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
+                        for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
+                                cells[row][col].paint();
+                                cells[row][col].setFontCell(SudokuConstants.FONT_NUMBERS);
+                        }
+                }
+        }
+
+        private void startSolveAnimation() {
+                solveAnimationStep = 0;
+                solveAnimationTimer = new Timer(140, event -> {
+                        int rowIndex = solveAnimationStep / 2;
+                        boolean highlightPhase = solveAnimationStep % 2 == 0;
+
+                        if (rowIndex >= SudokuConstants.GRID_SIZE) {
+                                stopSolveAnimation();
+                                resetSolvedState();
+                                return;
+                        }
+
+                        for (int col = 0; col < SudokuConstants.GRID_SIZE; col++) {
+                                if (highlightPhase) {
+                                        cells[rowIndex][col].setBackgroundCell(ThemeSupport.BG_HIGH_NUMBER);
+                                } else {
+                                        cells[rowIndex][col].paint();
+                                }
+                        }
+                        solveAnimationStep++;
+                });
+                solveAnimationTimer.setInitialDelay(0);
+                solveAnimationTimer.start();
+        }
+
+        private void stopSolveAnimation() {
+                if (solveAnimationTimer != null && solveAnimationTimer.isRunning()) {
+                        solveAnimationTimer.stop();
+                }
+        }
 
 
 
