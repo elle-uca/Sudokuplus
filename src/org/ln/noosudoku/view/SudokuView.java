@@ -7,6 +7,8 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalTime;
@@ -16,6 +18,9 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.WindowConstants;
@@ -84,6 +89,45 @@ public class SudokuView extends JFrame {
 		levelPanel.add(timeLabel);
 		levelPanel.add(btnNote);
 		levelPanel.add(btnAdvNote);
+		
+		
+		JMenuBar menuBar = new JMenuBar();
+
+        JMenu fileMenu = new JMenu("File");
+        JMenuItem addFileItem = new JMenuItem("Add file");
+       // addFileItem.addActionListener(controller.new AddFileButtonActionListener());
+        JMenuItem addDirItem = new JMenuItem("Add dir");
+       // addDirItem.addActionListener(controller.new AddDirButtonActionListener());
+        JMenuItem exitItem = new JMenuItem("Exit");
+        exitItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0); // Termina l'applicazione
+            }
+        });
+        
+        fileMenu.add(addFileItem);
+        fileMenu.add(addDirItem);
+        fileMenu.addSeparator();
+        fileMenu.add(exitItem);
+        menuBar.add(fileMenu);
+
+        JMenu settingsMenu = new JMenu("Setting");
+        JMenuItem prefItem = new JMenuItem("Preferences");
+        settingsMenu.add(prefItem);
+        menuBar.add(settingsMenu);
+
+        JMenu toolsMenu = new JMenu("Tools");
+        JMenuItem psswGen = new JMenuItem("Generatore password");
+        JMenuItem tool2 = new JMenuItem("Tool 2");
+        toolsMenu.add(psswGen);
+        toolsMenu.add(tool2);
+        menuBar.add(toolsMenu);
+
+        JMenu helpMenu = new JMenu("Help");
+        JMenuItem aboutItem = new JMenuItem("About");
+        helpMenu.add(aboutItem);
+        menuBar.add(helpMenu);
+		
 
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(levelPanel, BorderLayout.NORTH);
