@@ -179,14 +179,54 @@ public class SudokuController {
 	 *
 	 * @return the view used by this controller
 	 */
-	public SudokuView getView() {
-		return view;
-	}
+        public SudokuView getView() {
+                return view;
+        }
 
-	/**
-	 * Handles digit button presses and applies them to the currently selected cell.
-	 */
-	public class ButtonNumberListener implements ActionListener {
+
+        /**
+         * Fills the selected editable cell with the correct solution value.
+         */
+        public void suggest() {
+                CardCell selected = view.getBoard().getSelected();
+                if (selected == null || selected.getStatus() == CellStatus.GIVEN) {
+                        return;
+                }
+
+                selected.setMode(CellMode.CELLPANEL);
+                selected.setNumber(String.valueOf(selected.getNumber()));
+
+                checkDisableButton(selected.getNumber());
+                view.getBoard().checkCancellNote(selected);
+                checkSolved();
+        }
+
+
+        /**
+         * Completes the current puzzle by filling every editable cell with the correct
+         * answer.
+         */
+        public void solve() {
+                CardCell[][] cells = view.getBoard().getCardCells();
+
+                for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
+                        for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
+                                CardCell cell = cells[row][col];
+                                if (cell.getStatus() != CellStatus.GIVEN) {
+                                        cell.setMode(CellMode.CELLPANEL);
+                                        cell.setNumber(String.valueOf(cell.getNumber()));
+                                }
+                        }
+                }
+
+                checkDisableButtons();
+                checkSolved();
+        }
+
+        /**
+         * Handles digit button presses and applies them to the currently selected cell.
+         */
+        public class ButtonNumberListener implements ActionListener {
 
                private final SudokuController controller;
 
