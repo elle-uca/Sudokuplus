@@ -319,18 +319,17 @@ public class SudokuView extends JFrame {
 	 * Entry point that configures the look and feel before showing the view.
 	 */
 	public static void main(String args[]) {
-		// 1) Mostra lo splash
-		SplashScreen splash = new SplashScreen();
-		splash.showSplash();
-		// Simulazione caricamento while Spring parte (progress finto)
-		new Thread(() -> {
-			for (int i = 0; i <= 100; i++) {
-				splash.setProgress(i, "Caricamento... " + i + "%");
-				try {
-					Thread.sleep(25);
-				} catch (InterruptedException ignored) {}
-			}
-		}).start();
+		   // 1) CREO E MOSTRO SUBITO LO SPLASH (fuori dall’EDT!)
+	    SplashScreen splash = new SplashScreen();
+	    splash.showSplash();
+
+	    // 2) FALSO CARICAMENTO MENTRE LO SPLASH È VISIBILE
+	    for (int i = 0; i <= 100; i++) {
+	        splash.setProgress(i, "Caricamento... " + i + "%");
+	        try {
+	            Thread.sleep(25);     // <-- tempo per permettere allo splash di essere visualizzato
+	        } catch (InterruptedException ignored) {}
+	    }
 
 		/* Create and display the form */
 		SwingUtilities.invokeLater(() -> {
@@ -340,8 +339,6 @@ public class SudokuView extends JFrame {
 			SudokuView view = new SudokuView();
 			SudokuController controller = new SudokuController(view);
 			view.setController(controller);
-
-
 			view.setVisible(true);
 			splash.close();
 
