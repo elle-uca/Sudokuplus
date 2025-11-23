@@ -54,15 +54,15 @@ public class SudokuView extends JFrame {
 	private JLabel levelLabel = new JLabel("Level");
 	private JLabel timeLabel = new JLabel("");
 	private JComboBox<GameLevel> comboLevel;
-        private JButton[] numbers = new JButton[SudokuConstants.GRID_SIZE];
-        private JPanel numberPanel = new JPanel(new GridLayout(1, SudokuConstants.GRID_SIZE));
-        private final EnumMap<GameLevel, JRadioButtonMenuItem> levelMenuItems = new EnumMap<>(GameLevel.class);
-        private final EnumMap<Theme, JRadioButtonMenuItem> themeMenuItems = new EnumMap<>(Theme.class);
-        private JCheckBoxMenuItem notesToggleMenuItem;
-        private JMenuItem suggestMenuItem;
-        private JMenuItem solveMenuItem;
-        private static final int LEVEL_PANEL_HGAP = 20;
-        private static final int LEVEL_PANEL_VGAP = 5;
+	private JButton[] numbers = new JButton[SudokuConstants.GRID_SIZE];
+	private JPanel numberPanel = new JPanel(new GridLayout(1, SudokuConstants.GRID_SIZE));
+	private final EnumMap<GameLevel, JRadioButtonMenuItem> levelMenuItems = new EnumMap<>(GameLevel.class);
+	private final EnumMap<Theme, JRadioButtonMenuItem> themeMenuItems = new EnumMap<>(Theme.class);
+	private JCheckBoxMenuItem notesToggleMenuItem;
+	private JMenuItem suggestMenuItem;
+	private JMenuItem solveMenuItem;
+	private static final int LEVEL_PANEL_HGAP = 20;
+	private static final int LEVEL_PANEL_VGAP = 5;
 
 	private SudokuController controller;
 	private Timer timer;
@@ -76,7 +76,7 @@ public class SudokuView extends JFrame {
 	public SudokuView() {
 		comboLevel = new JComboBox<>(GameLevel.values());
 		initNumberPanel();
-
+		
 		btnNote.setEnabled(false);
 		btnAdvNote.setEnabled(false);
 
@@ -146,11 +146,11 @@ public class SudokuView extends JFrame {
 		fileMenu.add(exitItem);
 		menuBar.add(fileMenu);
 
-                JMenu viewMenu = new JMenu("View");
-                JMenu themeMenu = new JMenu("Tema");
-                ButtonGroup themeGroup = new ButtonGroup();
-                for (Theme theme : Theme.values()) {
-                        String label = theme.name().replace('_', ' ');
+		JMenu viewMenu = new JMenu("View");
+		JMenu themeMenu = new JMenu("Tema");
+		ButtonGroup themeGroup = new ButtonGroup();
+		for (Theme theme : Theme.values()) {
+			String label = theme.name().replace('_', ' ');
 			JRadioButtonMenuItem themeItem = new JRadioButtonMenuItem(label);
 			themeItem.setSelected(theme == ThemeSupport.getTheme());
 			themeItem.addActionListener(e -> updateTheme(theme));
@@ -158,20 +158,20 @@ public class SudokuView extends JFrame {
 			themeMenu.add(themeItem);
 			themeMenuItems.put(theme, themeItem);
 		}
-                viewMenu.add(themeMenu);
-                menuBar.add(viewMenu);
+		viewMenu.add(themeMenu);
+		menuBar.add(viewMenu);
 
-                JMenu toolsMenu = new JMenu("Tool");
-                notesToggleMenuItem = new JCheckBoxMenuItem("Attiva note");
-                notesToggleMenuItem.addActionListener(e -> toggleNotes());
-                toolsMenu.add(notesToggleMenuItem);
-                suggestMenuItem = new JMenuItem("Suggerisci cella");
-                suggestMenuItem.addActionListener(e -> suggestSelectedCell());
-                toolsMenu.add(suggestMenuItem);
-                solveMenuItem = new JMenuItem("Risolvi");
-                solveMenuItem.addActionListener(e -> solveCurrentGame());
-                toolsMenu.add(solveMenuItem);
-                menuBar.add(toolsMenu);
+		JMenu toolsMenu = new JMenu("Tool");
+		notesToggleMenuItem = new JCheckBoxMenuItem("Attiva note");
+		notesToggleMenuItem.addActionListener(e -> toggleNotes());
+		toolsMenu.add(notesToggleMenuItem);
+		suggestMenuItem = new JMenuItem("Suggerisci cella");
+		suggestMenuItem.addActionListener(e -> suggestSelectedCell());
+		toolsMenu.add(suggestMenuItem);
+		solveMenuItem = new JMenuItem("Risolvi");
+		solveMenuItem.addActionListener(e -> solveCurrentGame());
+		toolsMenu.add(solveMenuItem);
+		menuBar.add(toolsMenu);
 
 		JMenu helpMenu = new JMenu("Help");
 		JMenuItem preferencesItem = new JMenuItem("Preferenze...");
@@ -288,28 +288,28 @@ public class SudokuView extends JFrame {
 		}
 	}
 
-        private void toggleNotes() {
-                if (controller == null) {
-                        return;
-                }
-                boolean enabled = !controller.isModeNote();
-                controller.setModeNote(enabled);
-                updateNotesUi(enabled);
-        }
+	private void toggleNotes() {
+		if (controller == null) {
+			return;
+		}
+		boolean enabled = !controller.isModeNote();
+		controller.setModeNote(enabled);
+		updateNotesUi(enabled);
+	}
 
-        private void suggestSelectedCell() {
-                if (controller == null) {
-                        return;
-                }
-                controller.suggest();
-        }
+	private void suggestSelectedCell() {
+		if (controller == null) {
+			return;
+		}
+		controller.suggest();
+	}
 
-        private void solveCurrentGame() {
-                if (controller == null) {
-                        return;
-                }
-                controller.solve();
-        }
+	private void solveCurrentGame() {
+		if (controller == null) {
+			return;
+		}
+		controller.solve();
+	}
 
 	private void updateNotesUi(boolean enabled) {
 		btnNote.setText(enabled ? "Note On" : "Note Off");
@@ -341,17 +341,17 @@ public class SudokuView extends JFrame {
 	 * Entry point that configures the look and feel before showing the view.
 	 */
 	public static void main(String args[]) {
-		   // 1) CREO E MOSTRO SUBITO LO SPLASH (fuori dall’EDT!)
-	    SplashScreen splash = new SplashScreen();
-	    splash.showSplash();
+		// 1) CREO E MOSTRO SUBITO LO SPLASH 
+		SplashScreen splash = new SplashScreen();
+		splash.showSplash();
 
-	    // 2) FALSO CARICAMENTO MENTRE LO SPLASH È VISIBILE
-	    for (int i = 0; i <= 100; i++) {
-	        splash.setProgress(i, "Caricamento... " + i + "%");
-	        try {
-	            Thread.sleep(25);     // <-- tempo per permettere allo splash di essere visualizzato
-	        } catch (InterruptedException ignored) {}
-	    }
+		// 2) FALSO CARICAMENTO MENTRE LO SPLASH È VISIBILE
+		for (int i = 0; i <= 100; i++) {
+			splash.setProgress(i, "Caricamento... " + i + "%");
+			try {
+				Thread.sleep(15);     // <-- tempo per permettere allo splash di essere visualizzato
+			} catch (InterruptedException ignored) {}
+		}
 
 		/* Create and display the form */
 		SwingUtilities.invokeLater(() -> {
